@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation';
 
 
 
-const page = () => {
+const Page = () => {
   const [currentpage, setcurrentpage] = useState(1)
   const [pages, setpages] = useState(0)
   const [categories, setcategories] = useState([])
@@ -178,4 +178,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

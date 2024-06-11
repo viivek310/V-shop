@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-const page = () => {
+const Page = () => {
   return (
     <div className="container mx-auto px-8 md:px-24 py-12 text-gray-800 leading-8">
       <section className='abtsec boutus mb-12'>
@@ -56,4 +56,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

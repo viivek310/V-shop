@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 
-const page = () => {
+const Page = () => {
     const { cartItems, setCartItems } = useContext(cartProducts);
     const [counts, setCounts] = useState(cartItems?.map(() => 1));
     const [total, settotal] = useState(0)
@@ -129,4 +129,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

@@ -12,7 +12,7 @@ import { json } from 'react-router-dom';
 
 
 
-const page = () => {
+const Page = () => {
   const { data, status } = useSession()
   const session = useSession()
   const { isAdmin, setisAdmin } = useContext(cartProducts)
@@ -105,4 +105,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 
 
 
-const productInfo = ({ params }) => {
+const ProductInfo = ({ params }) => {
     const [images, setimages] = useState([])
     const [index, setindex] = useState(0)
     const [product, setproduct] = useState({})
@@ -199,4 +199,4 @@ const productInfo = ({ params }) => {
     )
 }
 
-export default productInfo
+export default ProductInfo
