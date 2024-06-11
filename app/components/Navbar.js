@@ -43,11 +43,11 @@ const Navbar = () => {
 
   };
 
-  const searchAction = async(e)=>{
+  const searchAction = async (e) => {
     const search = e.get("search-dropdown")
-    if(search===""){
+    if (search === "") {
       router.push(`/`)
-    }else{
+    } else {
       router.push(`/products?search=${search}`)
     }
   }
@@ -74,9 +74,9 @@ const Navbar = () => {
         // setCartItems([...cartItems,cart.products[0]])
         return cart.products[0]
       })
-      if(promises){
-      const result = await Promise.all(promises)
-      setCartItems(result)
+      if (promises) {
+        const result = await Promise.all(promises)
+        setCartItems(result)
       }
       // setCartItems(cart,"hiii")
     }
@@ -86,7 +86,7 @@ const Navbar = () => {
 
   return (
     <header className='text-xl bg-slate-300 sticky top-0 z-50'>
-      <nav className='flex justify-around items-center h-16  md:px-10 px-5  '>
+      <nav className='flex justify-around items-center h-16  md:px-10  sm:px-5  '>
         <Link className="logo font-bold  text-nowrap text-violet-950" href={"/"}>
           V-shop
         </Link>
@@ -109,34 +109,39 @@ const Navbar = () => {
         <div className="nav flex justify-center items-center">
 
           <ul className='flex  gap-10 h-full justify-between items-center bg font-bold'>
-            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path==="/"&&"text-rose-700"} transition-transform hidden lg:block`}><Link href={"/"}>Home</Link></li>
-            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path==="/about"&&"text-rose-700"} transition-transform hidden lg:block`}><Link href={"/about"}>About</Link></li>
-            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path==="/products"&&"text-rose-700"} transition-transform hidden lg:block`}><Link href={"/products"}>Products</Link></li>
+            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/" && "text-rose-700"} transition-transform hidden lg:block`}><Link href={"/"}>Home</Link></li>
+            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/about" && "text-rose-700"} transition-transform hidden lg:block`}><Link href={"/about"}>About</Link></li>
+            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/products" && "text-rose-700"} transition-transform hidden lg:block`}><Link href={"/products"}>Products</Link></li>
           </ul>
         </div>
 
 
         <div className="procart  flex md:gap-5 gap-1 justify-end items-center text-end">
 
-          <div className='relative text-3xl '><Link href={"/cart"}><MdOutlineShoppingCart /></Link><span className='absolute -top-4 right-0 text-sm'>{cartItems.length > 0 && cartItems.length}</span></div>
+          <div className='relative text-4xl hover:scale-105 hover:text-gray-600 mx-3'><Link href={"/cart"}><MdOutlineShoppingCart /></Link>
+            <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{cartItems.length > 0 && cartItems.length}</div>
+          </div>
 
           {session.status === "authenticated" ?
             <div tabIndex={0} ref={drop} onBlur={(e) => handleblur(e)} onClick={() => setdropdown(!dropdown)} className="relative w-14 cursor-pointer profile flex  gap-1 justify-start  items-center text-end bg-slate-900 rounded-full shadow-xl">
 
               <div id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" className="flex shrink-0 text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button" >
                 <span className="sr-only">Open user menu</span>
-                <Image className="w-8 h-8 rounded-full object-cover" src={profile||session?.data?.user?.image||"/images/user.png"} alt="user photo" height={100} width={100} />
+                <Image className="w-8 h-8 rounded-full object-cover" src={profile || session?.data?.user?.image || "/images/user.png"} alt="user photo" height={100} width={100} />
               </div>
-              <span  className='text-white select'><IoIosArrowDown /></span>
+              <span className='text-white select'><IoIosArrowDown /></span>
 
-              <div id="dropdownAvatar" className={`z-50 ${!dropdown && "hidden"} absolute top-10 -right-20 text-center bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
+              <div id="dropdownAvatar" className={`z-50 ${!dropdown && "hidden"} absolute top-10 -right-10 md:-right-20 text-center bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
                 <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
                   <div>{session?.data?.user?.name}</div>
-                  <div className="font-medium truncate">{email||""}</div>
+                  <div className="font-medium truncate">{email || ""}</div>
                 </div>
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
                   <li>
                     <Link href={`/profile`} onClick={() => setdropdown(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</Link>
+                  </li>
+                  <li>
+                    <Link href="/" onClick={() => setdropdown(!dropdown)} className="block lg:hidden px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Home</Link>
                   </li>
                   <li>
                     <Link href="/about" onClick={() => setdropdown(!dropdown)} className="block lg:hidden px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About</Link>

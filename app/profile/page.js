@@ -68,13 +68,13 @@ const Page = () => {
   };
 
   return (
-    <div className='container w-screen  ll h-[85svh] flex justify-center items-center'>
+    <div className='container w-[100vw] m-auto h-[85svh] flex justify-center items-center'>
       <div className="profile relative">
         <div className="image w-24 h-24 rounded-full overflow-hidden container mx-auto">
           <Image className='w-full h-full object-cover  ' src={profile||session?.data?.user?.image || "/images/user.png"} height={100} width={100} priority alt='user image' />
 
         </div>
-        <form className='w-[20vw]' ref={ref} action={(e) => { handleSubmit(e) }}>
+        <form className='w-[70vw] sm:w-[40vw] lg:w-[20vw]' ref={ref} action={(e) => { handleSubmit(e) }}>
           {/* <div className="relative z-0 mt-10">
             <input disabled={!editClicked} type="text" id="name" name="name" value={user.name || ""} onChange={(e) => handleChange(e)} className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:text-gray-900 focus:outline-none focus:ring-0 focus:text-gray-900 peer" placeholder=" " />
             <label htmlFor="small_standard" className="absolute text-sm text-gray-700 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Name</label>
@@ -97,7 +97,7 @@ const Page = () => {
 
           <button disabled={!editClicked} className={`${!editClicked && "invisible"} p-3 bg-blue-300 my-5 container mx-auto rounded-full hover:bg-blue-400 `}>Save</button>
         </form>
-        <div onClick={() => seteditClicked(!editClicked)} className={`edit absolute top-0 -right-10 ${editClicked ? "bg-blue-500" : "bg-blue-100"} p-2 rounded-full`}>
+        <div onClick={() => seteditClicked(!editClicked)} className={`edit text-3xl md:text-xl absolute text-white top-0 -right-10 ${editClicked ? "bg-gray-500" : "bg-black"} p-2 rounded-full`}>
           <FiEdit2 />
         </div>
       </div>

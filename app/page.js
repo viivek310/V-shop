@@ -90,8 +90,8 @@ export default function Home() {
       </div>
 
       </section>
-      <section className="category   min-h-[100svh] flex flex-col gap-5 items-center justify-center py-12">
-        <h2 className="text-3xl">Categories</h2>
+      <section className="category   min-h-[100svh] flex flex-col gap-5 items-center justify-center py-12 relative">
+        <h2 className="text-3xl absolute top-10 font-bold">Categories</h2>
         <div className="container w-[80%] mx-auto flex gap-5 flex-wrap  justify-center items-center">
           {catProducts.map((product,ind)=>{
             return <Category key={ind} Category={product[0].category} datas={product} />

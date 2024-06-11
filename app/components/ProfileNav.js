@@ -37,7 +37,7 @@ const ProfileNav = () => {
           <li className={`${(path === '/profile') && "bg-red-600"} py-1 px-1 sm:px-2 rounded-lg `}><Link href={"/profile"}>profile</Link></li>
           <li className={`${(path === '/profile/products') && "bg-red-600"} py-1 px-1 sm:px-2 rounded-lg `}><Link href={"/profile/products"}>Products</Link></li>
           {/* <li className={`${(path === '/profile/users') && "bg-red-600"} py-1 px-1 sm:px-2 rounded-lg `}><Link href={"/profile/users"}>Users</Link></li> */}
-          <li className={`${(path === '/profile/user-orders') && "bg-red-600"} py-1 px-1 sm:px-2 rounded-lg `}><Link href={"/profile/user-orders"}>User Orders</Link></li>
+          {/* <li className={`${(path === '/profile/user-orders') && "bg-red-600"} py-1 px-1 sm:px-2 rounded-lg `}><Link href={"/profile/user-orders"}>User Orders</Link></li> */}
 
           {/* <li>Products</li>
         <li>Users</li>

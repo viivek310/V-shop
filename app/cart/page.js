@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { getSession } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import formatToINR from '../util';
 
 
 const Page = () => {
@@ -91,9 +92,9 @@ const Page = () => {
                             </div>
                         </div>
                         <div className='w-[20%] flex justify-center items-center flex-col'>
-                            <h3 className='text-xl font-bold'>₹{item.productDisPrice}</h3>
+                            <h3 className='text-xl font-bold'>₹{formatToINR(item.productDisPrice)}</h3>
                             <div className="discount">
-                                <span className='line-through text-gray-700 text-xs mx-2'>₹{item.productPrice}</span>
+                                <span className='line-through text-gray-700 text-xs mx-2'>₹{formatToINR(item.productPrice)}</span>
                                 <span className='text-green-500 text-sm'>{item.productDiscount}% off</span>
                             </div>
                             <form className="max-w-xs mx-auto my-2">
@@ -121,9 +122,9 @@ const Page = () => {
                     </div>
                 }) : <div className='text-center p-5'>No items in cart. Add some items to cart</div>}
             </div>
-            <div className='bg-neutral-300 rounded-md drop-shadow-xl w-[20%] h-fit'>
+            <div className='bg-neutral-300 rounded-md drop-shadow-xl w-[20%] h-fit p-5'>
                 <h3>Total Amount</h3>
-                <span>₹{total}</span>
+                <span>₹{formatToINR(total)}</span>
             </div>
         </div>
     )

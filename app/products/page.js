@@ -125,8 +125,8 @@ const Page = () => {
     }
    }, [params])
   return (
-    <div className={`container ${!search&&"grid gtc"} gap-5 p-5`}>
-      {!search && <section className='category bg-slate-200  min-h-[100vh] overflow-y-auto'>
+    <div className={`container ${!search&&"md:grid gtc "} m-auto gap-5  sm:p-5 px-0`}>
+      {!search && <section className='category hidden md:block bg-slate-200 h-[85vh] sticky top-20 overflow-y-auto'>
         <h3 className='text-lg text-center py-1'>Explore catergories</h3>
         <ul className=''>
           <li onClick={()=>setcategory()} className='p-2 cursor-pointer'>All categories</li>
@@ -136,15 +136,15 @@ const Page = () => {
         </ul>
       </section>}
       
-      <section className='products bg-slate-200  flex flex-col  items-center py-20 space-y-10'>
-        {products.length===0?<div>No products to show</div>:<>
+      <section className='products bg-slate-200  flex flex-col items-center py-10 space-y-2 sm:space-y-10'>
+        {products.length===0?<div className=' min-h-[100vh]'>No products to show</div>:<>
           {products?.map((item) => (
             <ProductPage key={item.productID} product={item} />
           ))}
 
 
 
-          <ul className="flex items-center -space-x-px h-10 text-base" id='pagination'>
+          <ul className="flex items-center -space-x-px h-10 text-base py-12" id='pagination'>
             <li>
               <button onClick={decCP} className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 <span className="sr-only">Previous</span>
