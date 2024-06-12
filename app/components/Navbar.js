@@ -92,12 +92,12 @@ const Navbar = () => {
       setsession1(sessdata)
    }
    sess()
-  }, [])
+  }, [router,session])
   
 
   return (
     <header className='text-xl bg-slate-300 sticky top-0 z-50'>
-      {/* {console.log(session1)} */}
+      {console.log(session1)}
       <nav className='flex justify-around items-center h-16  md:px-10  sm:px-5  '>
         <Link className="logo font-bold  text-nowrap text-violet-950" href={"/"}>
           V-shop

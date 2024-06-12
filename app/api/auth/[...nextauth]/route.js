@@ -59,14 +59,14 @@ export const authoptions = NextAuth({
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log(user)
+
       // console.log(user,account,profile,email,credentials)
       if (account?.provider == "credentials") {
         return true
       }
       if (account?.provider == "google") {
         try {
-          console.log(user.name)
+     
           const userExist = await User.findOne({ username: user.name })
           if (!userExist) {
             const newUser = new User({
@@ -87,7 +87,6 @@ export const authoptions = NextAuth({
       if (account?.provider == "github") {
         connectDB()
         try {
-          console.log(user.name)
           const userExist = await User.findOne({ username: user.name })
           if (!userExist) {
             const newUser = new User({
