@@ -35,22 +35,22 @@ export const authoptions = NextAuth({
         // Add logic here to look up the user from the credentials supplied
         await connectDB()
         try {
-          console.log(credentials.username,"identifier")
-           const user = await User.findOne({username: credentials.username})
-           if(!user){
+          // console.log(credentials.username,"identifier")
+          const user = await User.findOne({ username: credentials.username })
+          if (!user) {
             throw new Error("Incorrect Username")
-           }
+          }
           //  if(!user.isVerified){
           //   throw new Error("User not verified")
           //  }
-           console.log(credentials.password,user.password)
+          //  console.log(credentials.password,user.password)
 
-           const isCorrect = await bcrypt.compare(credentials.password,user.password)
-           if(isCorrect){
+          const isCorrect = await bcrypt.compare(credentials.password, user.password)
+          if (isCorrect) {
             return user
-           }else{
+          } else {
             throw new Error("Incorrect credentials")
-           }
+          }
         } catch (error) {
           throw new Error(error)
         }
@@ -58,19 +58,16 @@ export const authoptions = NextAuth({
     })
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials}) {
-
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log(user)
       // console.log(user,account,profile,email,credentials)
       if (account?.provider == "credentials") {
         return true
       }
       if (account?.provider == "google") {
-        return true
-      }
-      if (account?.provider == "github") {
-        connectDB()
         try {
-          const userExist = await User.findOne({username: user.name})
+          console.log(user.name)
+          const userExist = await User.findOne({ oldemail: user.email })
           if (!userExist) {
             const newUser = new User({
               username: user.name,
@@ -82,11 +79,32 @@ export const authoptions = NextAuth({
             return true
           }
           return true
-        }catch(error){
+        } catch (error) {
           console.log(error)
           return false
         }
-        
+      }
+      if (account?.provider == "github") {
+        connectDB()
+        try {
+          console.log(user.name)
+          const userExist = await User.findOne({ oldemail: user.email })
+          if (!userExist) {
+            const newUser = new User({
+              username: user.name,
+              oldEmail: user.email,
+              email: user.email,
+              password: "",
+            })
+            await newUser.save()
+            return true
+          }
+          return true
+        } catch (error) {
+          console.log(error)
+          return false
+        }
+
       }
 
     },

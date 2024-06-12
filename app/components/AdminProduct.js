@@ -29,10 +29,11 @@ const AdminProduct = ({ product }) => {
       },
       body: JSON.stringify({ id })
     })
+    // console.log(res)
     if(res.ok){
       const newProducts = [...products]
       const delProdcuts = newProducts.filter((pro)=>{
-        pro.productID===id
+        pro.productID!==id
       })
       setproducts(delProdcuts)
     }

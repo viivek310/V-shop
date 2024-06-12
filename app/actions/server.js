@@ -122,7 +122,6 @@ export const handleSignUp = async (e) => {
     const pass = e.get("password")
     const confirmPassword = e.get("confirm-password")
     
-    console.log(username, email, pass, confirmPassword)
     if (pass === confirmPassword) {
         const password = await bcrypt.hash(pass, 10)
         await connectDB()
@@ -132,7 +131,6 @@ export const handleSignUp = async (e) => {
             return {error: "Username Already Exists"}
         }
         if(emailExist){
-            console.log(email)
             return {error: "This Email Already Exist"}
         }
         if (!userExist&&!emailExist) {

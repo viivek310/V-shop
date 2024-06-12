@@ -33,7 +33,8 @@
     "react-router-dom": "^6.23.0",
     "react-simple-image-slider": "^2.4.1",
     "react-slideshow-image": "^4.3.1",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "sharp": "^0.33.4"
   },
   "devDependencies": {
     "eslint": "^8",
