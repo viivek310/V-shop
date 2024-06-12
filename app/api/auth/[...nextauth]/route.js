@@ -67,7 +67,7 @@ export const authoptions = NextAuth({
       if (account?.provider == "google") {
         try {
           console.log(user.name)
-          const userExist = await User.findOne({ oldemail: user.email })
+          const userExist = await User.findOne({ username: user.name })
           if (!userExist) {
             const newUser = new User({
               username: user.name,
@@ -88,7 +88,7 @@ export const authoptions = NextAuth({
         connectDB()
         try {
           console.log(user.name)
-          const userExist = await User.findOne({ oldemail: user.email })
+          const userExist = await User.findOne({ username: user.name })
           if (!userExist) {
             const newUser = new User({
               username: user.name,

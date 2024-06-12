@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
 
+
 const Navbar = () => {
   const session = useSession();
   const { cartItems, setCartItems } = useContext(cartProducts)
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [dropdown, setdropdown] = useState(false)
   const [email, setemail] = useState("")
   const [profile, setprofile] = useState("")
+  const [session1, setsession1] = useState()
   // const [imgsrc, setimgsrc] = useState(session?.data?.user?.image)
   const path = usePathname()
   const router = useRouter()
@@ -83,9 +85,19 @@ const Navbar = () => {
     fetchCart()
   }, [])
 
+  useEffect(() => {
+   const sess = async()=>{
+      const sessdata = await getSession()
+      // console.log(sessdata)
+      setsession1(sessdata)
+   }
+   sess()
+  }, [])
+  
 
   return (
     <header className='text-xl bg-slate-300 sticky top-0 z-50'>
+      {/* {console.log(session1)} */}
       <nav className='flex justify-around items-center h-16  md:px-10  sm:px-5  '>
         <Link className="logo font-bold  text-nowrap text-violet-950" href={"/"}>
           V-shop
@@ -122,7 +134,7 @@ const Navbar = () => {
             <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{cartItems.length > 0 && cartItems.length}</div>
           </div>
 
-          {session.status === "authenticated" ?
+          {session1 ?
             <div tabIndex={0} ref={drop} onBlur={(e) => handleblur(e)} onClick={() => setdropdown(!dropdown)} className="relative w-14 cursor-pointer profile flex  gap-1 justify-start  items-center text-end bg-slate-900 rounded-full shadow-xl">
 
               <div id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" className="flex shrink-0 text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button" >
