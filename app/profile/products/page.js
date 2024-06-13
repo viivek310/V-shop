@@ -234,7 +234,6 @@ const Products = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* {console.log(products)} */}
                       {products.map((item) => {
                         return <AdminProduct key={item.productID} product={item} />
                       })}

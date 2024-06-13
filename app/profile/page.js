@@ -68,7 +68,6 @@ const Page = () => {
     const arr = Array.from([...new Set(change)])
     const res = await updateUser(e, { "changes": arr });
     // const err = await res.json()
-    console.log(res)
     seteditClicked(false);
   };
 

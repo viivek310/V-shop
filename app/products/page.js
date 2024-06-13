@@ -77,7 +77,6 @@ const Page = () => {
           body: JSON.stringify({search: srch})
         })
         const data = await res.json()
-        console.log(data)
         setproducts(data.product)
         setcategories(data.categories)
       }

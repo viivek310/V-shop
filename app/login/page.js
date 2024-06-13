@@ -44,7 +44,6 @@ export default function Component() {
   useEffect(() => {
     const fetchsession = async()=>{
       const sessiondata = await getSession()
-      console.log(sessiondata)
       if(sessiondata){
         router.push("/")
       }
