@@ -1,5 +1,5 @@
 "use client"
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut, getSession } from "next-auth/react"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Bounce, ToastContainer, toast } from 'react-toastify';
@@ -37,8 +37,14 @@ export default function Component() {
 
   const session = useSession()
   useEffect(() => {
-    if (session?.status == "authenticated") {
-      router.push("/")
+    // if (session?.status == "authenticated") {
+    //   router.push("/")
+    // }
+    const fetchsession = async()=>{
+      const sessiondata = await getSession()
+      if(!sessiondata){
+        router.push("/")
+      }
     }
   }, [session])
 

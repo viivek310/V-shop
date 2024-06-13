@@ -88,7 +88,7 @@ const Navbar = () => {
   useEffect(() => {
    const sess = async()=>{
       const sessdata = await getSession()
-      // console.log(sessdata)
+      console.log(sessdata)
       setsession1(sessdata)
    }
    sess()
