@@ -88,7 +88,6 @@ const Navbar = () => {
   useEffect(() => {
    const sess = async()=>{
       const sessdata = await getSession()
-      console.log(sessdata)
       setsession1(sessdata)
    }
    sess()
@@ -97,12 +96,10 @@ const Navbar = () => {
 
   return (
     <header className='text-xl bg-slate-300 sticky top-0 z-50'>
-      {console.log(session1)}
       <nav className='flex justify-around items-center h-16  md:px-10  sm:px-5  '>
         <Link className="logo font-bold  text-nowrap text-violet-950" href={"/"}>
           V-shop
         </Link>
-
         <form className="md:block hidden" action={searchAction}>
           <div className="flex w-96">
             <div className="relative w-full ">
