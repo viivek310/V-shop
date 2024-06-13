@@ -46,6 +46,7 @@ export default function Component() {
         router.push("/")
       }
     }
+    fetchsession()
   }, [session])
 
   const handelSignIn = async (e) => {

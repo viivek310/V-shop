@@ -17,9 +17,13 @@ const Page = () => {
     const {session,data,status} = useSession()
 
     useEffect(() => {
-        if(status==="unauthenticated"){
-            router.push("/login")
-        }
+        const fetchsession = async()=>{
+            const sessiondata = await getSession()
+            if(!sessiondata){
+              router.push("/login")
+            }
+          }
+          fetchsession()
     }, [session,status])
     
 
