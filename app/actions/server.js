@@ -12,7 +12,7 @@ export const updateUser = async (e,c) => {
     const oldEmail = e.get("oldEmail")
     const profile = e.get("profileImg")
     // connectDB()
-    // console.log(profileImg)
+  
     let profileImg
     if (profile.size >= 5 * 1024 * 1024) {
         return { error: "The file should be less than 5 mb" }

@@ -37,12 +37,10 @@ export default function Component() {
 
   const session = useSession()
   useEffect(() => {
-    // if (session?.status == "authenticated") {
-    //   router.push("/")
-    // }
     const fetchsession = async()=>{
       const sessiondata = await getSession()
-      if(!sessiondata){
+      console.log(sessiondata)
+      if(sessiondata){
         router.push("/")
       }
     }

@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const Page = () => {
   return (
-    <div className="container mx-auto px-8 md:px-24 py-12 text-gray-800 leading-8">
+    <div className="container mx-auto px-8 md:px-24 md:py-12 text-gray-800 leading-8">
       <section className='abtsec boutus mb-12'>
         <h1 className="font-bold text-4xl md:text-5xl mb-6">V-shop - About Us</h1>
         <p className="text-lg md:text-xl">We're more than just an online store; we're a team of passionate individuals driven by a love for making life easier and more enjoyable for our customers. V-shop was founded with the vision of creating a convenient and reliable platform where you can find everything you need, from the latest clothing trends to cutting-edge electronics and all the gadgets in between.</p>

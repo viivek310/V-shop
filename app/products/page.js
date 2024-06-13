@@ -77,6 +77,7 @@ const Page = () => {
           body: JSON.stringify({search: srch})
         })
         const data = await res.json()
+        console.log(data)
         setproducts(data.product)
         setcategories(data.categories)
       }
@@ -136,7 +137,7 @@ const Page = () => {
         </ul>
       </section>}
       
-      <section className='products bg-slate-200  flex flex-col items-center py-10 space-y-2 sm:space-y-10'>
+      <section className='products bg-slate-200  flex flex-col items-center py-3 md:py-10 space-y-2 min-h-[100vh] sm:space-y-10'>
         {products.length===0?<div className=' min-h-[100vh]'>No products to show</div>:<>
           {products?.map((item) => (
             <ProductPage key={item.productID} product={item} />

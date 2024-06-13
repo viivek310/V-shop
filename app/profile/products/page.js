@@ -31,10 +31,14 @@ const Products = () => {
 
 
   useEffect(() => {
-    if (status !== "authenticated") {
-      router.push("login")
+    const fetchsession = async()=>{
+      const sessiondata = await getSession()
+      if(!sessiondata){
+        router.push("/login")
+      }
     }
-  }, [router])
+    fetchsession()
+  }, [session])
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);

@@ -151,10 +151,9 @@ const ProductInfo = ({ params }) => {
                 theme="light"
             />}
             <div className='min-h-[100svh] md:px-10 lg::px-20 '>
-
-                <div className="select page bg-gray-200  sm:px-20 md:px-36 py-5 pb-10 rounded-xl">
+            {Object.keys(product).length>0&& <div className="select page bg-gray-200  sm:px-20 md:px-36 py-5 pb-10 rounded-xl">
                     <div className="grid gap-4 w-[100%] justify-items-center">
-                        <div className='w-[95%] md:w-[80%] relative h-[50svh] md:h-[70svh]'>
+                        <div className='w-[95%] md:w-[80%] relative h-[40svh] md:h-[70svh]'>
                             <div onClick={() => nextImg()} className='rightarrow absolute text-7xl right-5 top-[50%] translate-y-[-50%] cursor-pointer'><IoIosArrowDroprightCircle /></div>
                             <div onClick={() => prevImg()} className='leftarrow absolute text-7xl left-5 top-[50%] translate-y-[-50%] cursor-pointer '><IoIosArrowDropleftCircle /></div>
                             <Image className="select h-full max-w-full w-full  lg:object-contain rounded-lg" src={images[index] || ""} alt="product image" width={1000} height={1000} />
@@ -207,7 +206,7 @@ const ProductInfo = ({ params }) => {
                             })}
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
         </>
     )

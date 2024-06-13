@@ -19,10 +19,10 @@ const Footer = () => {
                         <div className='hover:translate-x-2 transition-transform'>Twitter</div>
                         <div className='hover:translate-x-2 transition-transform'>Facebook</div>
                     </div>
-                    <div className="f3">
+                    {/* <div className="f3">
                         <h3 className='font-bold'>Track Your Orders</h3>
                         <div className='hover:translate-x-2 transition-transform'><Link href={"/orders"}>Orders</Link></div>
-                    </div>
+                    </div> */}
                     <div className="f4">
                         <h3 className='font-bold'>Explore Products</h3>
                         <div className='hover:translate-x-2 transition-transform' ><Link href={"/products"}>Products</Link></div>

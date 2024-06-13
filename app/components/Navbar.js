@@ -9,6 +9,7 @@ import Image from 'next/image';
 import cartProducts from '../context/context';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import Hamburger from 'hamburger-react'
 
 
 
@@ -20,10 +21,12 @@ const Navbar = () => {
   const [email, setemail] = useState("")
   const [profile, setprofile] = useState("")
   const [session1, setsession1] = useState()
+  const [isOpen, setOpen] = useState(false)
   // const [imgsrc, setimgsrc] = useState(session?.data?.user?.image)
   const path = usePathname()
   const router = useRouter()
   const drop = useRef()
+  const hamburgerMenu = useRef()
 
   const handleblur = (e) => {
     const currentTarget = e.currentTarget;
@@ -31,6 +34,7 @@ const Navbar = () => {
     const parentElement = e.currentTarget; // The element where onBlur occurred
     if (!parentElement.contains(elementClicked)) {
       setdropdown(false)
+  
     }
 
 
@@ -40,7 +44,12 @@ const Navbar = () => {
 
     // Give browser time to focus the next elemen
 
-    setdropdown2(false)
+    if (
+      hamburgerMenu.current &&
+      !hamburgerMenu.current.contains(e.relatedTarget)
+    ) {
+      setOpen(false);
+    }
 
 
   };
@@ -58,6 +67,7 @@ const Navbar = () => {
     const fetchCart = async () => {
       const session = await getSession()
       const email = session?.user?.email
+
       const user = await fetch("/api/user/", {
         method: "POST",
         headers: {
@@ -86,17 +96,17 @@ const Navbar = () => {
   }, [])
 
   useEffect(() => {
-   const sess = async()=>{
+    const sess = async () => {
       const sessdata = await getSession()
       setsession1(sessdata)
-   }
-   sess()
-  }, [router,session])
-  
+    }
+    sess()
+  }, [router, session])
+
 
   return (
     <header className='text-xl bg-slate-300 sticky top-0 z-50'>
-      <nav className='flex justify-around items-center h-16  md:px-10  sm:px-5  '>
+      <nav className='flex justify-between lg:justify-around items-center h-16  md:px-10 px-3  relative'>
         <Link className="logo font-bold  text-nowrap text-violet-950" href={"/"}>
           V-shop
         </Link>
@@ -114,13 +124,13 @@ const Navbar = () => {
           </div>
         </form>
 
+        {/* hidden lg: */}
+        <div ref={hamburgerMenu} className={`nav ${!isOpen&&"hidden"} lg:flex transition-transform w-full lg:w-auto bg-slate-300 lg:bg-transparent absolute left-0 top-24 md:top-16 lg:static flex justify-center items-center py-5 lg:py-0 shadow-md lg:shadow-none`}>
 
-        <div className="nav flex justify-center items-center">
-
-          <ul className='flex  gap-10 h-full justify-between items-center bg font-bold'>
-            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/" && "text-rose-700"} transition-transform hidden lg:block`}><Link href={"/"}>Home</Link></li>
-            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/about" && "text-rose-700"} transition-transform hidden lg:block`}><Link href={"/about"}>About</Link></li>
-            <li className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/products" && "text-rose-700"} transition-transform hidden lg:block`}><Link href={"/products"}>Products</Link></li>
+          <ul className='flex flex-col lg:flex-row gap-4 lg:gap-10 h-full w-full justify-between items-center bg font-bold'>
+            <li onClick={()=>setOpen(false)} className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/" && "text-rose-700"} transition-transform`}><Link href={"/"}>Home</Link></li>
+            <li onClick={()=>setOpen(false)} className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/about" && "text-rose-700"} transition-transform `}><Link href={"/about"}>About</Link></li>
+            <li onClick={()=>setOpen(false)} className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/products" && "text-rose-700"} transition-transform`}><Link href={"/products"}>Products</Link></li>
           </ul>
         </div>
 
@@ -128,7 +138,7 @@ const Navbar = () => {
         <div className="procart  flex md:gap-5 gap-1 justify-end items-center text-end">
 
           <div className='relative text-4xl hover:scale-105 hover:text-gray-600 mx-3'><Link href={"/cart"}><MdOutlineShoppingCart /></Link>
-            <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{cartItems.length > 0 && cartItems.length}</div>
+          {cartItems.length > 0 &&<div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{cartItems.length}</div>}
           </div>
 
           {session1 ?
@@ -149,18 +159,7 @@ const Navbar = () => {
                   <li>
                     <Link href={`/profile`} onClick={() => setdropdown(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</Link>
                   </li>
-                  <li>
-                    <Link href="/" onClick={() => setdropdown(!dropdown)} className="block lg:hidden px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Home</Link>
-                  </li>
-                  <li>
-                    <Link href="/about" onClick={() => setdropdown(!dropdown)} className="block lg:hidden px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About</Link>
-                  </li>
-                  <li>
-                    <Link href="/products" onClick={() => setdropdown(false)} className="block lg:hidden px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Products</Link>
-                  </li>
-                  {/* <li>
-                    <Link href="/orders" onClick={() => setdropdown(false)} className="block lg:hidden px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Orders</Link>
-                  </li> */}
+                  
                 </ul>
                 <div className="py-2">
                   <button onClick={signOut} className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
@@ -172,13 +171,15 @@ const Navbar = () => {
             <div className="login">
               <Link href={"/login"}>Login</Link>
             </div>}
-
+          <span onBlur={handleblur1} className='lg:hidden'>
+            <Hamburger toggled={isOpen} toggle={setOpen} />
+          </span>
         </div>
       </nav>
-      <form className="md:hidden">
+      <form className="md:hidden" action={searchAction}>
         <div className="flex w-full ">
           <div className="relative w-full">
-            <input type="search" id="search-dropdown1" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="search products" required />
+            <input type="search" id="search-dropdown1" name='search-dropdown' className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="search products" required />
             <button type="submit" className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700">
               <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />

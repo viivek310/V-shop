@@ -32,19 +32,12 @@ export const authoptions = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
         await connectDB()
         try {
-          // console.log(credentials.username,"identifier")
           const user = await User.findOne({ username: credentials.username })
           if (!user) {
             throw new Error("Incorrect Username")
           }
-          //  if(!user.isVerified){
-          //   throw new Error("User not verified")
-          //  }
-          //  console.log(credentials.password,user.password)
-
           const isCorrect = await bcrypt.compare(credentials.password, user.password)
           if (isCorrect) {
             return user
@@ -59,8 +52,6 @@ export const authoptions = NextAuth({
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-
-      // console.log(user,account,profile,email,credentials)
       if (account?.provider == "credentials") {
         return true
       }
