@@ -75,23 +75,24 @@ export const authoptions = NextAuth({
         //   return false
         // }
         connectDB()
-        try {
-          const userExist = await User.findOne({ username: user.name })
-          if (!userExist) {
-            const newUser = new User({
-              username: user.name,
-              oldEmail: user.email,
-              email: user.email,
-              password: "",
-            })
-            await newUser.save()
-            return true
-          }
-          return true
-        } catch (error) {
-          console.log(error)
-          return false
-        }
+        connectDB()
+        // try {
+        //   const userExist = await User.findOne({ username: user.name })
+        //   if (!userExist) {
+        //     const newUser = new User({
+        //       username: user.name,
+        //       oldEmail: user.email,
+        //       email: user.email,
+        //       password: "",
+        //     })
+        //     await newUser.save()
+        //     return true
+        //   }
+        //   return true
+        // } catch (error) {
+        //   console.log(error)
+        //   return false
+        // }
         return true
       }
       if (account?.provider == "github") {
