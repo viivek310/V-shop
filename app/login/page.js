@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation"
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { handleSignUp } from "../actions/server";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 export default function Component() {
   const router = useRouter();
@@ -13,6 +15,9 @@ export default function Component() {
   const [password, setpassword] = useState()
   const ref = useRef(null)
   const [errors, setErrors] = useState([]);
+  const [pass, setpass] = useState(true)
+  const [regPass, setregPass] = useState(true)
+  const [conPass, setconPass] = useState(true)
 
   const validatePassword = (password) => {
     const errors = [];
@@ -127,29 +132,32 @@ export default function Component() {
           <h1 className="text-3xl font-bold text-center">Sign in</h1>
           <form onSubmit={handelSignIn}>
             <div className="relative z-0 mt-10">
-              <input type="text" id="name" onChange={(e) => setusername(e.target.value)} value={username} name="username" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:text-gray-900 focus:outline-none focus:ring-0 focus:text-gray-900 peer" placeholder=" " />
+              <input required type="text" id="name" onChange={(e) => setusername(e.target.value)} value={username} name="username" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:text-gray-900 focus:outline-none focus:ring-0 focus:text-gray-900 peer" placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-700 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Username</label>
             </div>
-            <div className="relative z-0 mt-10">
-              <input type="password" id="password" onChange={(e) => setpassword(e.target.value)} value={password} name="password" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
+            <div className="relative z-0 mt-10 ">
+              <input required type={pass?"password":"text"} id="password" onChange={(e) => setpassword(e.target.value)} value={password} name="password" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer pr-8" placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
+              <span onClick={()=>setpass(!pass)} className="absolute right-2 top-2 text-xl bg-slate-300 select">{pass?<FaEyeSlash />:<FaEye />}</span>
             </div>
             <button className="px-2 py-1 mt-5 w-full text-center font-bold bg-slate-400  hover:bg-purple-700 hover:text-white border border-black rounded-md">Sign in </button>
+            
           </form>
         </> : <>
           <h1 className="text-3xl font-bold text-center">Sign up</h1>
           <form ref={ref} action={handleSubmit}>
             <div className="relative z-0 mt-10">
-              <input type="text" id="name" name="username" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:text-gray-900 focus:outline-none focus:ring-0 focus:text-gray-900 peer" placeholder=" " />
+              <input required type="text" id="name" name="username" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:text-gray-900 focus:outline-none focus:ring-0 focus:text-gray-900 peer" placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-700 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Username</label>
             </div>
             <div className="relative z-0 mt-10">
-              <input type="email" id="email" name="email" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
+              <input required type="email" id="email" name="email" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email</label>
             </div>
             <div className="relative z-0 mt-10">
-              <input type="password" id="password" name="password" onChange={handleChange} className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
+              <input required type={regPass?"password":"text"} id="password" name="password" onChange={handleChange} className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
+              <span onClick={()=>setregPass(!regPass)} className="absolute right-2 top-2 text-xl bg-slate-300 select">{regPass?<FaEyeSlash />:<FaEye />}</span>
             </div>
             {errors.length > 0 && <div className="text-red-600 max-w-60">
               <ul className="list-disc space-y-2">
@@ -159,8 +167,9 @@ export default function Component() {
               </ul>
             </div>}
             <div className="relative z-0 mt-10">
-              <input type="password" id="confirm-password" name="confirm-password" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
+              <input type={conPass?"password":"text"} id="confirm-password" name="confirm-password" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Confirm Password</label>
+              <span onClick={()=>setconPass(!conPass)} className="absolute right-2 top-2 text-xl bg-slate-300 select">{conPass?<FaEyeSlash />:<FaEye />}</span>
             </div>
             <button className="px-2 py-1 mt-5 w-full text-center font-bold bg-slate-400  hover:bg-purple-700 hover:text-white border border-black rounded-md">Register</button>
           </form>
