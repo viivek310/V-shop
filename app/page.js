@@ -7,42 +7,6 @@ import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 
-
-
-
-// let topdeals=[
-//   {
-//     img: "/images/products/product1.jpg",
-//     des: "Redmi Note 13 5G",
-//     price: "₹15000"
-//   },
-//   {
-//     img: "/images/products/product2.jpg",
-//     des: "TECNO POVA 6 PRO 5G ",
-//     price: "₹15000"
-//   },
-//   {
-//     img: "/images/products/product3.jpg",
-//     des: "Redmi 12 5G",
-//     price: "₹15000"
-//   },
-//   {
-//     img: "/images/products/product4.jpg",
-//     des: "iQOO Neo 7 5G",
-//     price: "₹15000"
-//   },
-//   {
-//     img: "/images/products/product5.jpg",
-//     des: "Oneplus Nord CE 3 5G",
-//     price: "₹15000"
-//   },
-//   {
-//     img: "/images/products/product6.jpg",
-//     des: "POCO M6 Pro 5G",
-//     price: "₹15000"
-//   },
-// ]
-
 export default function Home() {
   const [showCategory, setshowCategory] = useState({})
   const [catProducts, setcatProducts] = useState([])
@@ -97,8 +61,6 @@ export default function Home() {
             return <Category key={ind} Category={product[0].category} datas={product} />
           })}
           
-          {/* <Category Category={"Electronic gadgets"} datas={electronics} />
-          <Category Category={"Fashion"} datas={fashion} /> */}
         </div>
       </section>
     </>
