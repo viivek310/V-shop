@@ -15,7 +15,7 @@ const ProductPage = ({ product }) => {
   }
 
   return (
-    <div onClick={changeRouter} className="product cursor-pointer h-52 w-full sm:w-[90%] md:w-3/4 flex bg-slate-50 hover:shadow-2xl hover:scale-[1.01] transition-transform rounded-lg overflow-hidden ">
+    <div onClick={changeRouter} className="product cursor-pointer h-52 w-full sm:w-[90%] md:w-3/4 flex bg-slate-50 hover:shadow-2xl hover:scale-[1.01] transition-transform rounded-lg overflow-hidden select">
       <div className="img w-[40%] sm:w-[20%] h-full overflow-hidden">
         <Image className='h-full w-full hover:scale-110 object-cover transition-transform' src={product.images[0]} height={100000} width={100000} alt='smartphone'></Image>
       </div>
@@ -25,21 +25,14 @@ const ProductPage = ({ product }) => {
             {product.productName}
           </h2>
           <div className="product_des line-clamp-4 sm:line-clamp-2 md:line-clamp-none space-x-5  overflow-clip">
-            {/* {product.ProductDes} */}
             <ul className='list-inside list-disc text-xs md:text-base'>
               {product?.ProductDes?.slice(0, 4).map((des, indx) => {
                 return <li key={indx}>
                   {des}
                 </li>
               })}
-              {/* <li>affdsdfas</li>
-              <li>affdsdfasasdfs</li> */}
             </ul>
           </div>
-          {/* <div className="button">
-          <button onClick={handleclick} className='bg-purple-600 text-white p-2 rounded-full font-bold flex justify-center items-center gap-3'><span><MdOutlineShoppingCart /></span>Add to cart</button>
-        </div> */}
-
         </div>
         <div className="product_price flex justify-center items-center h-[30%] md:h-auto flex-row-reverse  md:flex-col  md:py-10  md:w-[30%]">
           <h3 className='text-base md:text-xl font-bold'>₹{formatToINR(product.productDisPrice)}</h3>
