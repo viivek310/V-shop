@@ -26,8 +26,8 @@ const ProductInfo = ({ params }) => {
     const {status} = useSession()
 
     useEffect(() => {
-        document.title = `V-shop-${product && product.productName}`
-    }, [product])
+        document.title = `V-shop-${product.productName? product.productName:""}`
+    }, [product.productName])
 
 
     useEffect(() => {
@@ -156,7 +156,7 @@ const ProductInfo = ({ params }) => {
                         <div className='w-[95%] md:w-[80%] relative h-[40svh] md:h-[70svh]'>
                             <div onClick={() => nextImg()} className='rightarrow absolute text-7xl right-5 top-[50%] translate-y-[-50%] cursor-pointer'><IoIosArrowDroprightCircle /></div>
                             <div onClick={() => prevImg()} className='leftarrow absolute text-7xl left-5 top-[50%] translate-y-[-50%] cursor-pointer '><IoIosArrowDropleftCircle /></div>
-                            <Image className="select h-full max-w-full w-full object-cover  rounded-lg" src={images[index] || ""} alt="product image" width={1000} height={1000} />
+                            <Image className="select h-full max-w-full w-full object-cover md:object-contain  rounded-lg" src={images[index] || ""} alt="product image" width={1000} height={1000} />
                         </div>
                         <div className="grid grid-cols-5 md:gap-4">
                             {images.map((img, ind) => {
