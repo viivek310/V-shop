@@ -72,6 +72,13 @@ export const addProduct = async (e) => {
     const brand = e.get("brand")
     const quantity = e.get("quantity")
     const img = e.getAll("images")
+    const oldEmail = e.get('oldEmail')
+    // console.log(oldEmail,"sdfsdf")
+    const user = await User.findOne({oldEmail})
+    const isAdmin = user.isAdmin
+    if(!isAdmin){
+        return { error: "You are not an Admin" }
+    }
     let images = [];
     let ProductDes = des.split("\r\n")
     ProductDes = ProductDes.filter(item => item !== "");

@@ -9,6 +9,8 @@ import cartProducts from '../context/context';
 import { useContext } from 'react';
 import axios from 'axios';
 import { json } from 'react-router-dom';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Page = () => {
@@ -21,9 +23,10 @@ const Page = () => {
   const router = useRouter();
   const [change, setchange] = useState([])
   const [profile, setprofile] = useState("")
+  const [loading, setloading] = useState(false)
   // console.log(session.data)
-  const oldEmail = { oldEmail: session?.data?.user?.email }
   const [session1, setsession1] = useState()
+  const oldEmail = { oldEmail: session1?.user?.email }
   useEffect(() => {
     const fetchuser = async () => {
       const user = await fetch("/api/user/", {
@@ -41,7 +44,7 @@ const Page = () => {
       setisAdmin(res.isAdmin)
     }
     fetchuser()
-  }, [session, router])
+  }, [session1, router])
 
 
   useEffect(() => {
@@ -65,16 +68,42 @@ const Page = () => {
 
 
   const handleSubmit = async (e) => {
+    setloading(true)
     const arr = Array.from([...new Set(change)])
     const res = await updateUser(e, { "changes": arr });
-    // const err = await res.json()
+    if (res.success) {
+      toast.success('Profile updated', {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
+    }
     seteditClicked(false);
   };
 
   return (
     <>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <div className='container w-[100vw] m-auto h-[85svh] flex justify-center items-center'>
-      {session1&& <div className="profile relative">
+        {session1 && <div className="profile relative">
           <div className="image w-24 h-24 rounded-full overflow-hidden container mx-auto">
             <Image className='w-full h-full object-cover  ' src={profile || session?.data?.user?.image || "/images/user.png"} height={100} width={100} priority alt='user image' />
 
@@ -87,7 +116,7 @@ const Page = () => {
             {editClicked && <div className="imgages my-3">
 
               <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="file_input">Change Profile</label>
-              <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" name='profileImg' id="file_input" type="file" />
+              <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" name='profileImg' id="file_input" type="file" accept="image/*" />
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-800" id="file_input_help">SVG, PNG, JPG or GIF (Max file size - 5mb)</p>
             </div>}
             <input type="hidden" name="oldEmail" value={session?.data?.user?.email || ""} />

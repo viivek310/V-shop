@@ -13,7 +13,7 @@ const Product = ({ data }) => {
       <div className="img h-[80%] w-full">
         <Image className="h-[100%] w-[100%] object-cover" height={10000} width={10000} src={data.images[0]} alt='product-image'></Image>
       </div>
-      <h3>{data.productName}</h3>
+      <h3 className='line-clamp-1'>{data.productName}</h3>
       <span>₹{formatToINR(data.productPrice)}</span>
     </div>
   )

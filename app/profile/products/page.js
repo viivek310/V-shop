@@ -19,6 +19,7 @@ const Products = () => {
   const [isAdmin, setisAdmin] = useState(false)
   const [Add, setAdd] = useState(false)
   const {products, setproducts} = useContext(cartProducts)
+  const [session1, setsession1] = useState()
   const [currentpage, setcurrentpage] = useState(1)
   const [pages, setpages] = useState(0)
   const router = useRouter()
@@ -33,6 +34,7 @@ const Products = () => {
   useEffect(() => {
     const fetchsession = async()=>{
       const sessiondata = await getSession()
+      setsession1(sessiondata)
       if(!sessiondata){
         router.push("/login")
       }
@@ -157,6 +159,8 @@ const Products = () => {
             <h2 className='text-xl font-bold text-center'>Add new Product</h2>
             <form ref={ref} action={(e) => handleServer(e)}>
               <div className="relative z-0 mt-10">
+                {/* <input type='hidden' name='oldEmail' value={session?.data?user?.email}/> */}
+                <input type="hidden" name='oldEmail' value={session1?.user?.email||''}/>
                 <input required type="text" id="productID" name="productID" className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:text-gray-900 focus:outline-none focus:ring-0 focus:text-gray-900 peer" placeholder=" " />
                 <label htmlFor="small_standard" className="absolute text-sm text-gray-700 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Product ID</label>
               </div>
@@ -196,7 +200,7 @@ const Products = () => {
               <div className="imgages my-3">
 
                 <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="file_input">Upload file</label>
-                <input required className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" name='images' id="file_input" type="file" multiple />
+                <input required className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" name='images' id="file_input" type="file" accept="image/*" multiple />
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-800" id="file_input_help">SVG, PNG, JPG or GIF (Max file size - 5mb)</p>
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-800" id="file_input_help">Select 5 files</p>
 
