@@ -84,8 +84,8 @@ const Page = () => {
         theme: "light",
         transition: Bounce,
       });
-    } 
-    if(res.error){
+      seteditClicked(false);
+    } else{
       toast.error(res.error, {
         position: "bottom-center",
         autoClose: 3000,
@@ -100,7 +100,7 @@ const Page = () => {
     }
     
     setloading(false)
-    seteditClicked(false);
+    
   };
 
   return (
