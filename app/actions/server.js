@@ -5,19 +5,27 @@ import Product from "@/models/products"
 import cloudinary from "../Cloudinary/cloudinary"
 import bcrypt from "bcrypt"
 
-export const updateUser = async (e,c) => {
+export const updateUser = async (e, c) => {
     // const name = e.get("name")
     const username = e.get("username")
     const email = e.get("email")
     const oldEmail = e.get("oldEmail")
     const profile = e.get("profileImg")
-    // connectDB()
-  
+    connectDB()
+    try {
+        const user = await User.findOne({ oldEmail })
+        const urlParts = user.profileImg.split('/');
+        const fileName = urlParts.pop();
+        const [publicId] = fileName.split('.');
+        const result = await cloudinary.uploader.destroy(publicId);
+    } catch (error) {
+        console.error("Error deleting image:", error);
+    }
     let profileImg
     if (profile.size >= 5 * 1024 * 1024) {
         return { error: "The file should be less than 5 mb" }
     }
-    if(profile){
+    if (profile) {
         try {
             const formData = new FormData();
             formData.append("file", profile);
@@ -29,36 +37,38 @@ export const updateUser = async (e,c) => {
             });
             const data = await response.json();
             profileImg = data.secure_url
-            const update = await User.updateOne({ oldEmail }, {profileImg})
+            const update = await User.updateOne({ oldEmail }, { profileImg })
+            
         } catch (error) {
             console.error("Error uploading image:", error);
         }
+
     }
     let error = false
     let errorMessage = "";
     const userPromises = c.changes.map(async (change) => {
         const filter = {
-            [change] : e.get(change)
+            [change]: e.get(change)
         }
         const abc = await User.findOne(filter);
-        if(abc){
+        if (abc) {
             error = true
-            errorMessage= `This ${change} is alredy in use`
+            errorMessage = `This ${change} is alredy in use`
             return { error: `This ${change} is alredy in use` }
-        }else{
+        } else {
             const update = await User.updateOne({ oldEmail }, filter)
             return update;
         }
     });
-    
+
     const users = await Promise.all(userPromises);
- 
-    if(error){
-       return { error: errorMessage}
-    }else{
-        return {success:true}
+
+    if (error) {
+        return { error: errorMessage }
+    } else {
+        return { success: true }
     }
-   
+
 }
 
 export const addProduct = async (e) => {
@@ -74,9 +84,9 @@ export const addProduct = async (e) => {
     const img = e.getAll("images")
     const oldEmail = e.get('oldEmail')
     // console.log(oldEmail,"sdfsdf")
-    const user = await User.findOne({oldEmail})
+    const user = await User.findOne({ oldEmail })
     const isAdmin = user.isAdmin
-    if(!isAdmin){
+    if (!isAdmin) {
         return { error: "You are not an Admin" }
     }
     let images = [];
@@ -128,19 +138,19 @@ export const handleSignUp = async (e) => {
     const email = e.get("email")
     const pass = e.get("password")
     const confirmPassword = e.get("confirm-password")
-    
+
     if (pass === confirmPassword) {
         const password = await bcrypt.hash(pass, 10)
         await connectDB()
         const userExist = await User.findOne({ username })
-        const emailExist = await User.findOne({email})
-        if(userExist){
-            return {error: "Username Already Exists"}
+        const emailExist = await User.findOne({ email })
+        if (userExist) {
+            return { error: "Username Already Exists" }
         }
-        if(emailExist){
-            return {error: "This Email Already Exist"}
+        if (emailExist) {
+            return { error: "This Email Already Exist" }
         }
-        if (!userExist&&!emailExist) {
+        if (!userExist && !emailExist) {
             const newUser = new User({
                 username,
                 password,
@@ -148,7 +158,7 @@ export const handleSignUp = async (e) => {
                 oldEmail: email,
             })
             newUser.save()
-            return { success: "Registered Succesfully"}
+            return { success: "Registered Succesfully" }
         }
     } else {
         return { error: "Passwords does not match" }

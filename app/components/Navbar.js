@@ -128,7 +128,7 @@ const Navbar = () => {
         <div ref={hamburgerMenu} className={`nav ${!isOpen&&"hidden"} lg:flex transition-transform w-full lg:w-auto bg-slate-300 lg:bg-transparent absolute left-0 top-24 md:top-16 lg:static flex justify-center items-center py-5 lg:py-0 shadow-md lg:shadow-none`}>
 
           <ul className='flex flex-col lg:flex-row gap-4 lg:gap-10 h-full w-full justify-between items-center bg font-bold'>
-            <li onClick={()=>setOpen(false)} className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/" && "text-rose-700"} transition-transform`}><Link href={"/"}>Home</Link></li>
+            <li onClick={()=>setOpen(false)} className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/" && "text-rose-700"} transition-transform `}><Link href={"/"}>Home</Link></li>
             <li onClick={()=>setOpen(false)} className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/about" && "text-rose-700"} transition-transform `}><Link href={"/about"}>About</Link></li>
             <li onClick={()=>setOpen(false)} className={`hover:-translate-y-[2px] text-violet-900 hover:text-rose-700 ${path === "/products" && "text-rose-700"} transition-transform`}><Link href={"/products"}>Products</Link></li>
           </ul>
