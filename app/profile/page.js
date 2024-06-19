@@ -69,7 +69,6 @@ const Page = () => {
 
 
   const handleSubmit = async (e) => {
-    setdisable(true)
     const arr = Array.from([...new Set(change)])
     const res = await updateUser(e, { "changes": arr });
   
