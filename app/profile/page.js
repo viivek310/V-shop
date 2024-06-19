@@ -11,7 +11,6 @@ import axios from 'axios';
 import { json } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Loader from '../components/Loader';
 
 
 const Page = () => {
@@ -69,9 +68,9 @@ const Page = () => {
 
 
   const handleSubmit = async (e) => {
+    setloading(true)
     const arr = Array.from([...new Set(change)])
     const res = await updateUser(e, { "changes": arr });
-  
     if (res.success) {
       toast.success('Profile updated', {
         position: "bottom-center",
@@ -83,24 +82,9 @@ const Page = () => {
         progress: undefined,
         theme: "light",
         transition: Bounce,
-      });
-      seteditClicked(false);
-    } else{
-      toast.error(res.error, {
-        position: "bottom-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+        });
     }
-    
-    setloading(false)
-    
+    seteditClicked(false);
   };
 
   return (
@@ -145,7 +129,7 @@ const Page = () => {
               <label htmlFor="small_standard" className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">username</label>
             </div>
 
-            <button onClick={()=>setloading(true)} disabled={!editClicked} className={`${!editClicked && "invisible"} p-3 bg-blue-300 my-5 container mx-auto rounded-full hover:bg-blue-400 `}>{loading ?<Loader />:"Save"}</button>
+            <button disabled={!editClicked} className={`${!editClicked && "invisible"} p-3 bg-blue-300 my-5 container mx-auto rounded-full hover:bg-blue-400 `}>Save</button>
           </form>
           <div onClick={() => seteditClicked(!editClicked)} className={`edit text-3xl md:text-xl absolute text-white top-0 -right-10 ${editClicked ? "bg-gray-500" : "bg-black"} p-2 rounded-full`}>
             <FiEdit2 />
