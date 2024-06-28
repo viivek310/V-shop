@@ -136,7 +136,7 @@ const Page = () => {
         <h3 className='text-lg text-center p-1'>Explore catergories</h3>
         <div onClick={() => setcategory()} className='p-2 cursor-pointer'>All categories</div>
         <ul >
-          <div className='overflow-y-scroll max-h-[70svh]'>
+          <div className='overflow-y-auto max-h-[70svh]'>
             {categories.map((cat, index) => (
               <li onClick={() => setButton(cat)} className={`border-y border-b-slate-400 px-3 py-2 cursor-pointer ${category === cat && "bg-purple-300"} hover:bg-purple-200`} key={index}>{cat}</li>
             ))}
