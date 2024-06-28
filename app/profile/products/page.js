@@ -104,7 +104,7 @@ const Products = () => {
 
   const handleServer = async (e) => {
     const res = await addProduct(e);
-    if (res.error) {
+    if (res?.error) {
       toast.error(`${res.error}`, {
         position: "bottom-center",
         autoClose: 3000,
