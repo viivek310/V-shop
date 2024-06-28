@@ -88,7 +88,7 @@ const Page = () => {
 
                         return <div key={ind} className='flex  h-52 w-full'>
                             <div className="img h-52 w-[30%] md:w-[20%] rounded-md overflow-hidden shrink-0">
-                                <Image className='h-full w-full object-cover' src={item.images[0] || ""} width={1000} height={1000} alt='product image' />
+                                <Image className='h-full w-full object-fill ' src={item.images[0] || ""} width={1000} height={1000} alt='product image' />
                             </div>
                             <div className='flex flex-col sm:flex-row w-[70%] justify-between md:w-[80%]'>
                                 <div className='productdes px-2 sm:px-5 md:px-10 sm:w-[70%] space-y-3'>

@@ -6,7 +6,8 @@ import cartProducts from '../context/context';
 import Link from 'next/link';
 import ProductPage from '../components/ProductPage';
 import { useSearchParams } from 'next/navigation';
-
+import { FaArrowCircleLeft } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 
 
 
@@ -21,16 +22,17 @@ const Page = () => {
   const [search, setsearch] = useState("")
   const [products, setproducts] = useState([])
   const params = useSearchParams()
+  const [categoryclicked, setcategoryclicked] = useState(false)
 
   useEffect(() => {
-   if(params.get("search")!==null){
-    const srch = params.get("search")
+    if (params.get("search") !== null) {
+      const srch = params.get("search")
       setsearch(srch)
-   }else{
-    setsearch()
-   }
+    } else {
+      setsearch()
+    }
   }, [params])
-  
+
   useEffect(() => {
     const fetchproducts = async () => {
       const ftch = await fetch(`/api/product?page=${currentpage}${category ? `&category=${category}` : ''}`)
@@ -41,11 +43,11 @@ const Page = () => {
       setcategories(res.categories)
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    if(params.get("search")===null){
+    if (params.get("search") === null) {
       fetchproducts()
     }
-    
-  }, [currentpage,category ])
+
+  }, [currentpage, category])
 
   // useEffect(() => {
   //   const fetchproducts = async () => {
@@ -60,32 +62,33 @@ const Page = () => {
   //   if(params.get("search")===null){
   //     fetchproducts()
   //   }
-    
+
   // }, [category ])
 
 
   useEffect(() => {
-  
+
     // setsearch(srch)
-    const fetchproducts = async()=>{
-        const srch = params.get("search")
-        const res = await fetch('/api/product/search',{method:"POST",
-          headers:{
-            'Accept': 'applicatoin/json',
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify({search: srch})
-        })
-        const data = await res.json()
-        setproducts(data.product)
-        setcategories(data.categories)
-      }
-      if(search){
-        fetchproducts()
-      }
+    const fetchproducts = async () => {
+      const srch = params.get("search")
+      const res = await fetch('/api/product/search', {
+        method: "POST",
+        headers: {
+          'Accept': 'applicatoin/json',
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ search: srch })
+      })
+      const data = await res.json()
+      setproducts(data.product)
+      setcategories(data.categories)
+    }
+    if (search) {
+      fetchproducts()
+    }
   }, [search])
-  
- 
+
+
 
 
   const incCP = () => {
@@ -108,36 +111,42 @@ const Page = () => {
     })
   }
 
-  const setButton = (cat)=>{
+  const setButton = (cat) => {
     setcategory(cat)
   }
 
   useEffect(() => {
-    if(params.get('category')!==null){
-      const fun = async()=>{
+    if (params.get('category') !== null) {
+      const fun = async () => {
         const cat = params.get("category")
         setcategory(cat)
         const ftch = await fetch(`/api/product?page=${currentpage}&category=${cat}`)
         const res = await ftch.json()
         setproducts(res.products)
-       }
-       fun()
+      }
+      fun()
     }
-   }, [params])
+  }, [params])
   return (
-    <div className={`container ${!search&&"md:grid gtc "} m-auto gap-5  sm:p-5 px-0`}>
-      {!search && <section className='category hidden md:block bg-slate-200 h-[85vh] sticky top-20 overflow-y-auto'>
-        <h3 className='text-lg text-center py-1'>Explore catergories</h3>
-        <ul className=''>
-          <li onClick={()=>setcategory()} className='p-2 cursor-pointer'>All categories</li>
-          {categories.map((cat, index) => (
-            <li onClick={()=>setButton(cat)} className={`border-y border-b-slate-400 px-3 py-2 cursor-pointer ${category===cat&&"bg-purple-300"} hover:bg-purple-200`} key={index}>{cat}</li>
-          ))}
+    <div className={`container ${!search && "md:grid gtc "} m-auto gap-5  sm:p-5 px-0`}>
+      <div className=' md:hidden text-2xl pt-2 flex items-center fixed top-25 bg-slate-200 w-full'><span onClick={() => setcategoryclicked(true)} className='inline-block px-3 text-4xl'><FaArrowCircleLeft /></span>Categories</div>
+      {/* hidden md:block */}
+      {!search && <section className={`category fixed flex flex-col top-24 ${categoryclicked ? "left-0" : "-left-[100%]"}  md:sticky md:top-20 py-2  bg-slate-200 h-full md:h-[85vh]    `}>
+        <div onClick={() => setcategoryclicked(false)} className='flex justify-end p-2 text-3xl md:hidden'><MdCancel /></div>
+        <h3 className='text-lg text-center p-1'>Explore catergories</h3>
+        <div onClick={() => setcategory()} className='p-2 cursor-pointer'>All categories</div>
+        <ul >
+          <div className='overflow-y-scroll max-h-[70svh]'>
+            {categories.map((cat, index) => (
+              <li onClick={() => setButton(cat)} className={`border-y border-b-slate-400 px-3 py-2 cursor-pointer ${category === cat && "bg-purple-300"} hover:bg-purple-200`} key={index}>{cat}</li>
+            ))}
+          </div>
+
         </ul>
       </section>}
-      
-      <section className='products bg-slate-200  flex flex-col items-center py-3 md:py-10 space-y-2 min-h-[100vh] sm:space-y-10'>
-        {products.length===0?<div className=' min-h-[100vh]'>No products to show</div>:<>
+
+      <section className='products bg-slate-200  flex flex-col items-center py-14 md:py-10 space-y-2 min-h-[100vh] sm:space-y-10'>
+        {products.length === 0 ? <div className=' min-h-[100vh]'>No products to show</div> : <>
           {products?.map((item) => (
             <ProductPage key={item.productID} product={item} />
           ))}
@@ -172,7 +181,7 @@ const Page = () => {
             <button className='rounded-lg bg-purple-500 text-white p-1' onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Go to top</button>
           </div>
         </>}
-        
+
       </section>
     </div>
   )

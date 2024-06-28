@@ -18,7 +18,7 @@ export default function Slideshow (){
         height={"100%"}
         images={images}
         showBullets={true}
-        showNavs={true}
+        showNavs={false}
         autoPlay={true}
         className="md:h-[50svh] h-[30svh]"
         

@@ -19,7 +19,8 @@ const Navbar = () => {
   const [dropdown2, setdropdown2] = useState(false)
   const [dropdown, setdropdown] = useState(false)
   const [email, setemail] = useState("")
-  const [profile, setprofile] = useState("")
+  // const [profile, setprofile] = useState("")
+  const {profile,setprofile} = useContext(cartProducts)
   const [session1, setsession1] = useState()
   const [isOpen, setOpen] = useState(false)
   // const [imgsrc, setimgsrc] = useState(session?.data?.user?.image)
@@ -93,7 +94,7 @@ const Navbar = () => {
       // setCartItems(cart,"hiii")
     }
     fetchCart()
-  }, [])
+  }, [session,router])
 
   useEffect(() => {
     const sess = async () => {

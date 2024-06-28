@@ -23,10 +23,10 @@ const ProductInfo = ({ params }) => {
     const [suggestProduct, setsuggestProduct] = useState([])
     const { cartItems, setCartItems } = useContext(cartProducts);
     const router = useRouter()
-    const {status} = useSession()
+    const { status } = useSession()
 
     useEffect(() => {
-        document.title = `V-shop-${product.productName? product.productName:""}`
+        document.title = `V-shop-${product.productName ? product.productName : ""}`
     }, [product.productName])
 
 
@@ -70,15 +70,35 @@ const ProductInfo = ({ params }) => {
     }
 
     const handleclick = async () => {
-        if (status==="authenticated") {
-            let exist = false
-            cartItems.forEach((itms) => {
-                if (itms.productID === product.productID) {
-                    exist = true
-                }
+        const session = await getSession()
+        if(session){
+            const email = session?.user?.email
+
+            const res = await fetch("/api/user/updateCart", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productID: product.productID, oldEmail: email })
             })
-            if (exist) {
-                toast.error('Item already in cart', {
+            const result = await res.json()
+            if (result.success) {
+                setCartItems([...cartItems, product])
+                toast.success('Item added to cart', {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
+            if (result.error) {
+                toast.error(result.error, {
                     position: "bottom-center",
                     autoClose: 2999,
                     hideProgressBar: false,
@@ -88,38 +108,9 @@ const ProductInfo = ({ params }) => {
                     progress: undefined,
                     theme: "light",
                 });
-            } else {
-                const session = await getSession()
-                const email = session?.user?.email
-                const updatecart = async () => {
-                    const res = await fetch("/api/user/updateCart", {
-                        method: "POST",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ productID: product.productID, oldEmail: email })
-                    })
-
-                    setCartItems([...cartItems, product])
-                    return res.ok
-                }
-                if (updatecart()) {
-                    toast.success('Item added to cart', {
-                        position: "bottom-center",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                        transition: Bounce,
-                    });
-                }
             }
         }else{
-            toast.error('Log in to acces Cart', {
+            toast.error("Log in to use cart", {
                 position: "bottom-center",
                 autoClose: 2999,
                 hideProgressBar: false,
@@ -130,6 +121,7 @@ const ProductInfo = ({ params }) => {
                 theme: "light",
             });
         }
+        
     }
 
     const changeRouter = (id) => {
@@ -151,7 +143,7 @@ const ProductInfo = ({ params }) => {
                 theme="light"
             />}
             <div className='min-h-[100svh] md:px-10 lg:px-20 '>
-            {Object.keys(product).length>0&& <div className="select page bg-gray-200 py-5 pb-10 rounded-xl">
+                {Object.keys(product).length > 0 && <div className="select page bg-gray-200 py-5 pb-10 rounded-xl">
                     <div className="grid gap-4 w-[100%] justify-items-center">
                         <div className='w-[95%] md:w-[80%] relative h-[40svh] md:h-[70svh]'>
                             <div onClick={() => nextImg()} className='rightarrow absolute text-7xl right-5 top-[50%] translate-y-[-50%] cursor-pointer'><IoIosArrowDroprightCircle /></div>

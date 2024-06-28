@@ -7,9 +7,11 @@ export function CartWrapper({ children }) {
     const [cartItems, setCartItems] = useState([]);
     const [isAdmin, setisAdmin] = useState(false)
     const [products, setproducts] = useState([])
+    const [user, setUser] = useState({ name: null, username: null, email: null })
+    const [profile, setprofile] = useState("")
    
     return (
-        <cartProducts.Provider value={{ cartItems,setCartItems,isAdmin,setisAdmin,products,setproducts}}>
+        <cartProducts.Provider value={{ cartItems,setCartItems,isAdmin,setisAdmin,products,setproducts,user,setUser,profile,setprofile}}>
             {children}
         </cartProducts.Provider>
     );

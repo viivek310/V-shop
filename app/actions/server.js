@@ -11,21 +11,23 @@ export const updateUser = async (e, c) => {
     const email = e.get("email")
     const oldEmail = e.get("oldEmail")
     const profile = e.get("profileImg")
-    connectDB()
-    try {
-        const user = await User.findOne({ oldEmail })
-        const urlParts = user.profileImg.split('/');
-        const fileName = urlParts.pop();
-        const [publicId] = fileName.split('.');
-        const result = await cloudinary.uploader.destroy(publicId);
-    } catch (error) {
-        console.error("Error deleting image:", error);
-    }
+    // console.log(profile)
     let profileImg
     if (profile.size >= 5 * 1024 * 1024) {
         return { error: "The file should be less than 5 mb" }
     }
     if (profile) {
+        // console.log("hello")
+        connectDB()
+        try {
+            const user = await User.findOne({ oldEmail })
+            const urlParts = user.profileImg.split('/');
+            const fileName = urlParts.pop();
+            const [publicId] = fileName.split('.');
+            const result = await cloudinary.uploader.destroy(publicId);
+        } catch (error) {
+            console.error("Error deleting image:", error);
+        }
         try {
             const formData = new FormData();
             formData.append("file", profile);
