@@ -83,7 +83,7 @@ const ProductInfo = ({ params }) => {
                 body: JSON.stringify({ productID: product.productID, oldEmail: email })
             })
             const result = await res.json()
-            if (result.success) {
+            if (result?.success) {
                 setCartItems([...cartItems, product])
                 toast.success('Item added to cart', {
                     position: "bottom-center",
@@ -97,7 +97,7 @@ const ProductInfo = ({ params }) => {
                     transition: Bounce,
                 });
             }
-            if (result.error) {
+            if (result?.error) {
                 toast.error(result.error, {
                     position: "bottom-center",
                     autoClose: 2999,
