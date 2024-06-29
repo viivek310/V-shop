@@ -134,7 +134,7 @@ const Page = () => {
       {!search && <section className={`category fixed flex flex-col top-24 ${categoryclicked ? "left-0" : "-left-[100%]"}  md:sticky md:top-20 py-2  bg-slate-200 h-full md:h-[85vh]    `}>
         <div onClick={() => setcategoryclicked(false)} className='flex justify-end p-2 text-3xl md:hidden'><MdCancel /></div>
         <h3 className='text-lg text-center p-1'>Explore catergories</h3>
-        <div onClick={() => setcategory()} className='p-2 cursor-pointer'>All categories</div>
+        <div onClick={() => setcategory(null)} className={`p-2 cursor-pointer ${category === null && "bg-purple-300"}`}>All categories</div>
         <ul >
           <div className='overflow-y-auto max-h-[70svh]'>
             {categories.map((cat, index) => (

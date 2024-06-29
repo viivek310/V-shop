@@ -89,7 +89,6 @@ const Navbar = () => {
       })
       if (promises) {
         const result = await Promise.all(promises)
-        console.log(result)
         const cart = result.filter((item)=>{
           return item !== undefined
         })
