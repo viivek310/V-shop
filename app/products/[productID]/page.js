@@ -149,12 +149,12 @@ const ProductInfo = ({ params }) => {
                         <div className='w-[95%] md:w-[80%] relative h-[40svh] md:h-[70svh]'>
                             <div onClick={() => nextImg()} className='rightarrow absolute text-7xl right-5 top-[50%] translate-y-[-50%] cursor-pointer'><IoIosArrowDroprightCircle /></div>
                             <div onClick={() => prevImg()} className='leftarrow absolute text-7xl left-5 top-[50%] translate-y-[-50%] cursor-pointer '><IoIosArrowDropleftCircle /></div>
-                            <Image className="select h-full max-w-full w-full object-cover md:object-contain  rounded-lg" src={images[index] || ""} alt="product image" width={1000} height={1000} />
+                            <Image className="select h-full max-w-full w-full object-contain rounded-lg" src={images[index] || ""} alt="product image" width={1000} height={1000} />
                         </div>
                         <div className="grid grid-cols-5 md:gap-4">
                             {images.map((img, ind) => {
                                 return <div className='h-24 md:h-36' key={ind} onClick={() => setindex(ind)}>
-                                    <Image className={`select max-w-full w-full h-full rounded-lg  ${ind === index && "border-blue-600 border-4"} `} src={img || ""} alt="product image" width={1000} height={1000} />
+                                    <Image className={`select max-w-full object-contain w-full h-full rounded-lg  ${ind === index && "border-blue-600 border-4"} `} src={img || ""} alt="product image" width={1000} height={1000} />
                                 </div>
                             })}
                         </div>
