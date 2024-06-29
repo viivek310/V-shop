@@ -82,7 +82,8 @@ const ProductInfo = ({ params }) => {
                 },
                 body: JSON.stringify({ productID: product.productID, oldEmail: email })
             })
-            const result = await res.json()
+            const result = await res?.json()
+            console.log(result,"hii")
             if (result?.success) {
                 setCartItems([...cartItems, product])
                 toast.success('Item added to cart', {
