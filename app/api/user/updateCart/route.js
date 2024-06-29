@@ -9,13 +9,14 @@ export async function POST(request) {
   // const cartArray = [...user.cart,data.productID]
   // const unique = [...new Set(cartArray)]
   // console.log(unique,cartArray)
-  if (user.cart.includes(data.productID)) {
+  if (user?.cart?.includes(data.productID)) {
     return NextResponse.json({ error: "This product is already in cart" , success: false})
   } else {
     const result = await User.updateOne(
       { oldEmail: data.oldEmail },
       { $push: { cart: data.productID } }
     );
+    console.log(result)
   }
 
 
