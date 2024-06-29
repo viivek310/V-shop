@@ -89,7 +89,11 @@ const Navbar = () => {
       })
       if (promises) {
         const result = await Promise.all(promises)
-        setCartItems(result)
+        console.log(result)
+        const cart = result.filter((item)=>{
+          return item !== undefined
+        })
+        setCartItems(cart)
       }
       // setCartItems(cart,"hiii")
     }

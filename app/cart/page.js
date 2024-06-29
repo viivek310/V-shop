@@ -34,10 +34,10 @@ const Page = () => {
         setCounts(cartItems?.map(() => 1));
     }, [cartItems]);
     useEffect(() => {
-        const  newItems = cartItems.filter((item)=>{
-            return item !== undefined
-        })
-        setCartItems(newItems)
+        // const  newItems = cartItems.filter((item)=>{
+        //     return item !== undefined
+        // })
+        // setCartItems(newItems)
         settotal(cartItems.reduce((total, item, ind) => total + item?.productDisPrice * counts[ind], 0))
     }, [cartItems, counts])
 
@@ -89,8 +89,8 @@ const Page = () => {
                     <div className='cartitems bg-neutral-300 w-full lg:w-[80%] rounded-md drop-shadow-xl h-fit p-1 sm:p-5 space-y-5'>
                         {cartItems?.length > 0 ? cartItems.map((item, ind) => {
 
-                            return <>
-                               {item&& <div key={ind} className='flex  h-52 w-full'>
+                            return <div key={ind}>
+                               {item&& <div  className='flex  h-52 w-full'>
                                     <div className="img h-52 w-[30%] md:w-[20%] rounded-md overflow-hidden shrink-0">
                                         <Image className='h-full w-full object-fill ' src={item?.images[0] || ""} width={1000} height={1000} alt='product image' />
                                     </div>
@@ -142,7 +142,7 @@ const Page = () => {
                                         </div>
                                     </div>
                                 </div>}
-                            </>
+                            </div>
                         }) : <div className='text-center p-5'>No items in cart. Add some items to cart</div>}
                     </div>
                     <div className='bg-neutral-300 rounded-md drop-shadow-xl w-full sm:w-1/2 md:w-[20%] h-fit p-5'>
