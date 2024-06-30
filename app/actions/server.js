@@ -131,7 +131,8 @@ export const addProduct = async (e) => {
         return { error: "This product id already exist" }
     }
     const product = new Product({ productID, productName, productPrice, productDisPrice, productDiscount, ProductDes, category, brand, quantity, images })
-    product.save()
+    const res = await product.save()
+    console.log(res)
     return { success: "true" }
 }
 

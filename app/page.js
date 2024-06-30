@@ -16,9 +16,9 @@ export default function Home() {
     const ftchCategory = async()=>{
       const ftch = await fetch('/api/product')
       const res = await ftch.json()
-      const cat = res.categories.slice(0,3)
+      const cat = res.categories
       const deals =  res.products.sort((a, b) => a.price - b.price) 
-      const firstFive = deals.slice(0,4)
+      const firstFive = deals.slice(0,6)
       // console.log(deals)
       settopdeals(firstFive)
       setshowCategory(cat)
@@ -55,7 +55,7 @@ export default function Home() {
 
       </section>
       <section className="category   min-h-[100svh] flex flex-col gap-5 items-center justify-center py-12 relative">
-        <h2 className="text-3xl absolute top-10 font-bold">Categories</h2>
+        <h2 className="text-3xl  font-bold">Categories</h2>
         <div className="container w-[80%] mx-auto flex gap-5 flex-wrap  justify-center items-center">
           {catProducts.map((product,ind)=>{
             return <Category key={ind} Category={product[0].category} datas={product} />

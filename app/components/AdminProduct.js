@@ -33,7 +33,6 @@ const AdminProduct = ({ product }) => {
     if(res.ok){
       const newProducts = [...products]
       const delProdcuts = newProducts.filter((pro)=>{
-        console.log(pro.productID,id)
         return pro.productID!==id
       })
       setproducts(delProdcuts)

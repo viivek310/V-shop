@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     connectDB()
     let req = await request.json();
-    if (Object.keys(req).length!==0) {
+    if (Object.keys(req).length>=0) {
         const user = await User.findOne(req).select({_id:0,password:0})
         if(user){
             return NextResponse.json(user)

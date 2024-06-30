@@ -68,7 +68,6 @@ const Navbar = () => {
     const fetchCart = async () => {
       const session = await getSession()
       const email = session?.user?.email
-
       const user = await fetch("/api/user/", {
         method: "POST",
         headers: {
