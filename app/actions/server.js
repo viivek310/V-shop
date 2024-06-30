@@ -1,4 +1,4 @@
-"use server"
+
 import connectDB from "@/connection"
 import User from "@/models/user"
 import Product from "@/models/products"
