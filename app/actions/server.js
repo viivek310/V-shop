@@ -1,13 +1,13 @@
-
+"use server"
 import connectDB from "@/connection"
 import User from "@/models/user"
 import Product from "@/models/products"
 import cloudinary from "../Cloudinary/cloudinary"
 import bcrypt from "bcrypt"
 
-export const config = {
-    runtime: 'edge',
-}
+// export async config = {
+//     runtime: 'edge',
+// }
 
 export const updateUser = async (e, c) => {
     // const name = e.get("name")
