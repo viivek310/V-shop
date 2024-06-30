@@ -5,7 +5,6 @@ import Product from "@/models/products"
 import cloudinary from "../Cloudinary/cloudinary"
 import bcrypt from "bcrypt"
 
-export const maxDuration = 20;
 
 export const updateUser = async (e, c) => {
     // const name = e.get("name")
