@@ -87,19 +87,19 @@ export const addProduct = async (e) => {
     const oldEmail = e.get('oldEmail')
     // console.log(oldEmail,"sdfsdf")
     const user = await User.findOne({ oldEmail })
-    const isAdmin = user.isAdmin
+    const isAdmin = user?.isAdmin
     if (!isAdmin) {
         return { error: "You are not an Admin" }
     }
     let images = [];
-    let ProductDes = des.split("\r\n")
-    ProductDes = ProductDes.filter(item => item !== "");
+    let ProductDes = des?.split("\r\n")
+    ProductDes = ProductDes?.filter(item => item !== "");
     let large = false
-    if (img.length > 5) {
+    if (img?.length > 5) {
         return { error: "only 5 images are allowed" }
     }
-    img.forEach((img) => {
-        if (img.size >= 5 * 1024 * 1024) {
+    img?.forEach((img) => {
+        if (img?.size >= 5 * 1024 * 1024) {
             large = true
         }
     })
@@ -107,7 +107,7 @@ export const addProduct = async (e) => {
         return { error: "The file should be less than 5 mb" }
     }
 
-    await Promise.all(img.map(async (img) => {
+    await Promise.all(img?.map(async (img) => {
         try {
             const formData = new FormData();
             formData.append("file", img);
@@ -117,8 +117,8 @@ export const addProduct = async (e) => {
                 method: "POST",
                 body: formData
             });
-            const data = await response.json();
-            images.push(data.secure_url)
+            const data = await response?.json();
+            images?.push(data.secure_url)
         } catch (error) {
             console.error("Error uploading image:", error);
         }
@@ -127,12 +127,11 @@ export const addProduct = async (e) => {
 
     connectDB()
     const oldproduct = await Product.find({ productID })
-    if (oldproduct.length > 0) {
+    if (oldproduct?.length > 0) {
         return { error: "This product id already exist" }
     }
     const product = new Product({ productID, productName, productPrice, productDisPrice, productDiscount, ProductDes, category, brand, quantity, images })
-    const res = await product.save()
-    console.log(res)
+    const res = await product?.save()
     return { success: "true" }
 }
 
