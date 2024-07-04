@@ -23,12 +23,12 @@ const ProductPage = ({ product }) => {
         <div className="des space-y-4 p-5 px-5 h-[70%] md:h-auto md:w-[70%] flex flex-col ">
           <div>
             <div>{product.brand}</div>
-            <h2 className="product_name text-base md:text-lg font-bold">
+            <h2 className="product_name text-base md:text-lg font-bold line-clamp-2">
               {product.productName}
             </h2>
           </div>
 
-          <div className="product_des line-clamp-4 sm:line-clamp-2 md:line-clamp-none space-x-5  overflow-clip">
+          <div className="product_des line-clamp-4 sm:line-clamp-2 md:line-clamp-none space-x-5  overflow-clip truncate">
             <ul className='list-inside list-disc text-xs md:text-base'>
               {product?.ProductDes?.slice(0, 4).map((des, indx) => {
                 return <li key={indx}>

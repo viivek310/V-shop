@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { MdOutlineShoppingCart } from "react-icons/md";
 import cartProducts from '../context/context';
@@ -8,7 +8,6 @@ import ProductPage from '../components/ProductPage';
 import { useSearchParams } from 'next/navigation';
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-
 
 
 
@@ -23,6 +22,12 @@ const Page = () => {
   const [products, setproducts] = useState([])
   const params = useSearchParams()
   const [categoryclicked, setcategoryclicked] = useState(false)
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
+  const paginationRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     if (params.get("search") !== null) {
@@ -127,6 +132,62 @@ const Page = () => {
       fun()
     }
   }, [params])
+
+  // const handleTouchStart = (e) => {
+  //   console.log("hello")
+  //   setTouchStartX(e.targetTouches[0].clientX);
+  // };
+
+  // const handleTouchMove = (e) => {
+  //   setTouchEndX(e.targetTouches[0].clientX);
+  // };
+
+  // const handleTouchEnd = () => {
+  //   if (touchStartX - touchEndX > 50) {
+  //     // Swipe left
+  //     paginationRef.current.scrollLeft += 100; // Adjust the scroll distance as needed
+  //   }
+
+  //   if (touchStartX - touchEndX < -50) {
+  //     // Swipe right
+  //     paginationRef.current.scrollLeft -= 100; // Adjust the scroll distance as needed
+  //   }
+  // };
+
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - paginationRef.current.offsetLeft);
+    setScrollLeft(paginationRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - paginationRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust the scroll speed as needed
+    paginationRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e) => {
+    setStartX(e.targetTouches[0].clientX - paginationRef.current.offsetLeft);
+    setScrollLeft(paginationRef.current.scrollLeft);
+  };
+
+  const handleTouchMove = (e) => {
+    const x = e.targetTouches[0].clientX - paginationRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust the scroll speed as needed
+    paginationRef.current.scrollLeft = scrollLeft - walk;
+  };
+
   return (
     <div className={`container ${!search && "md:grid gtc "} m-auto gap-5  sm:p-5 px-0`}>
       <div className=' md:hidden text-2xl pt-2 flex items-center fixed top-25 bg-slate-200 w-full'><span onClick={() => setcategoryclicked(true)} className='inline-block px-3 text-4xl'><FaArrowCircleLeft /></span>Categories</div>
@@ -162,204 +223,22 @@ const Page = () => {
                 </svg>
               </button>
             </li>
-            <span className='flex max-w-[50vw] overflow-x-auto '>
+            <span className='pagination scrollbar-hide flex max-w-[50vw] overflow-x-auto cursor-pointer' ref={paginationRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+             >
 
-            
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
-            {[...Array(pages)].map((i, index) => {
-              return <li key={index}>
-                <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
-              </li>
-            })}
+
+              {[...Array(pages)].map((i, index) => {
+                return <li key={index}>
+                  <span onClick={() => setcurrentpage(index + 1)} className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentpage === (index + 1) ? "dark:bg-gray-700" : "dark:bg-gray-800"}  dark:border-gray-700 ${currentpage === (index + 1) ? "dark:text-white" : "dark:text-gray-400"}  dark:hover:bg-gray-700 dark:hover:text-white`}>{index + 1}</span>
+                </li>
+              })}
+      
             </span>
             <li>
               <button onClick={incCP} className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
