@@ -30,6 +30,7 @@ export async function GET(request) {
     let pages =Math.ceil(totalProducts/limit)
 
     const categories = await Product.distinct('category');
+    // console.log(products,pages,categories)
 
     return NextResponse.json({products,pages,categories})                                            
 }

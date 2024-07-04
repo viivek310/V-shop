@@ -51,7 +51,7 @@ const ProductInfo = ({ params }) => {
             setsuggestProduct(sug)
         }
         ftchSuggest()
-    }, [product])
+    }, [product,product.category])
 
     const prevImg = () => {
         if (index === 0) {
@@ -144,7 +144,7 @@ const ProductInfo = ({ params }) => {
                 theme="light"
             />}
             <div className='min-h-[100svh] md:px-10 lg:px-20 '>
-                {Object.keys(product).length > 0 && <div className="select page bg-gray-200 py-5 pb-10 rounded-xl">
+                {Object.keys(product).length > 0 && <div className="select page bg-white py-5 pb-10 rounded-xl">
                     <div className="grid gap-4 w-[100%] justify-items-center">
                         <div className='w-[95%] md:w-[80%] relative h-[40svh] md:h-[70svh]'>
                             <div onClick={() => nextImg()} className='rightarrow absolute text-7xl right-5 top-[50%] translate-y-[-50%] cursor-pointer'><IoIosArrowDroprightCircle /></div>
