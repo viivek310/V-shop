@@ -108,7 +108,7 @@ const Page = () => {
       <div className='container w-[100vw] m-auto h-[85svh] flex justify-center items-center'>
         {session1 && <div className="profile relative">
           <div className="image w-24 h-24 rounded-full overflow-hidden container mx-auto">
-            <Image className='w-full h-full object-cover  ' src={profile || session?.data?.user?.image || "/images/user.png"} height={100} width={100} priority alt='user image' />
+            <Image className='w-full h-full object-cover  ' src={profile || session?.data?.user?.image || "/images/user.png"} height={1000} width={1000} priority alt='user image' />
 
           </div>
           <form className='w-[70vw] sm:w-[40vw] lg:w-[20vw]' ref={ref} action={(e) => { handleSubmit(e) }}>
