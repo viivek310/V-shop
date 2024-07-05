@@ -96,7 +96,7 @@ const Page = () => {
                                     </div>
                                     <div className='flex flex-col sm:flex-row w-[70%] justify-between md:w-[80%]'>
                                         <div className='productdes px-2 sm:px-5 md:px-10 sm:w-[70%] space-y-3'>
-                                            <h2 className='text-lg md:text-xl sm:py-3'>{item?.productName}</h2>
+                                            <h2 className='text-lg md:text-xl  bg bg-blue-5 line-clamp-2 '>{item?.productName}</h2>
                                             <div className="product_des line-clamp-4 sm:line-clamp-2 md:line-clamp-none space-x-5  overflow-clip">
                                                 <ul className='list-inside list-disc text-xs sm:text-sm md:text-base'>
                                                     {item?.ProductDes.slice(0, 3).map((des, indx) => {
@@ -116,7 +116,7 @@ const Page = () => {
                                                     <span className='line-through text-gray-700 text-xs mx-2'>₹{formatToINR(item?.productPrice)}</span>
                                                 </div>
                                             </div>
-                                            <div className='flex gap-2 md:gap-0 md:flex-col items-center'>
+                                            <div className='flex gap-2 md:gap-0 sm:flex-col items-center'>
                                                 <form className="max-w-xs sm:mx-auto my-2 w-20 sm:w-32">
                                                     <div className="relative flex items-center max-w-[11rem] ">
                                                         <button onClick={() => decItem(ind)} type="button" id="decrement-button" data-input-counter-decrement="bedrooms-input" className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-1 sm:p-2 md:p-3 h-11  ">

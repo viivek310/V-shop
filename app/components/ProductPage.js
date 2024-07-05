@@ -28,7 +28,7 @@ const ProductPage = ({ product }) => {
             </h2>
           </div>
 
-          <div className="product_des line-clamp-4 sm:line-clamp-2 md:line-clamp-none space-x-5  overflow-clip truncate">
+          <div className="product_des line-clamp-4 sm:line-clamp-2 md:line-clamp-none space-x-5  overflow-clip">
             <ul className='list-inside list-disc text-xs md:text-base'>
               {product?.ProductDes?.slice(0, 4).map((des, indx) => {
                 return <li key={indx}>
