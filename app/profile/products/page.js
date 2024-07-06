@@ -41,6 +41,18 @@ const Products = () => {
     }
     fetchsession()
   }, [session])
+
+  useEffect(() => {
+    const fetchsession = async()=>{
+      // const sessiondata = await getSession()
+      // setsession1(sessiondata)
+      if(!isAdmin){
+        router.back();
+      }
+    }
+    fetchsession()
+  }, [session,isAdmin])
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
