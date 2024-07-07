@@ -16,7 +16,7 @@ import { url } from '@/app/Cloudinary/cloudinary';
 
 const Products = () => {
   const ref = useRef(null)
-  const [isAdmin, setisAdmin] = useState(false)
+  const {isAdmin, setisAdmin} = useContext(cartProducts)
   const [Add, setAdd] = useState(false)
   const {products, setproducts} = useContext(cartProducts)
   const [session1, setsession1] = useState()
@@ -46,6 +46,7 @@ const Products = () => {
     const fetchsession = async()=>{
       // const sessiondata = await getSession()
       // setsession1(sessiondata)
+      console.log(isAdmin)
       if(!isAdmin){
         router.back();
       }
