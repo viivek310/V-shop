@@ -144,17 +144,17 @@ const ProductInfo = ({ params }) => {
                 theme="light"
             />}
             <div className='min-h-[100svh] md:px-10 lg:px-20 '>
-                {Object.keys(product).length > 0 && <div className="select page bg-white py-5 pb-10 rounded-xl">
-                    <div className="grid gap-4 w-[100%] justify-items-center">
+                {Object.keys(product).length > 0 && <div className="select page bg-neutral-300 py-5 pb-10 ">
+                    <div className="grid gap-4 w-[100%] justify-items-center bg-white rounded-md shadow-lg">
                         <div className='w-[95%] md:w-[80%] relative h-[40svh] md:h-[70svh]'>
                             <div onClick={() => nextImg()} className='rightarrow absolute text-7xl right-5 top-[50%] translate-y-[-50%] cursor-pointer'><IoIosArrowDroprightCircle /></div>
                             <div onClick={() => prevImg()} className='leftarrow absolute text-7xl left-5 top-[50%] translate-y-[-50%] cursor-pointer '><IoIosArrowDropleftCircle /></div>
-                            <Image className="select h-full max-w-full w-full object-contain rounded-lg" src={images[index] || ""} alt="product image" width={1000} height={1000} />
+                            <Image draggable={false} className="select h-full max-w-full w-full object-contain rounded-lg" src={images[index] || ""} alt="product image" width={1000} height={1000} />
                         </div>
                         <div className="grid grid-cols-5 md:gap-4">
                             {images.map((img, ind) => {
                                 return <div className='h-24 md:h-36' key={ind} onClick={() => setindex(ind)}>
-                                    <Image className={`select max-w-full object-contain w-full h-full rounded-lg  ${ind === index && "border-blue-600 border-4"} `} src={img || ""} alt="product image" width={1000} height={1000} />
+                                    <Image className={`select max-w-full object-contain w-full h-full rounded-lg cursor-pointer ${ind === index && "border-blue-600 border-4"} `} src={img || ""} alt="product image" width={1000} height={1000} />
                                 </div>
                             })}
                         </div>
@@ -179,7 +179,7 @@ const ProductInfo = ({ params }) => {
                             })}
                         </ul>
                     </div>
-                    <div className='suggestion px-5 md:px-0'>
+                    <div className='suggestion px-5 py'>
                         <h3 className='font-bold text-xl md:text-2xl py-5'>Products from the same category</h3>
                         <div className='flex flex-col justify-center items-center md:items-start md:justify-normal md:flex-row gap-5 flex-wrap'>
                             {suggestProduct.length == 0 ? <div>No Products to Show</div> : suggestProduct.map((sug, ind) => {
