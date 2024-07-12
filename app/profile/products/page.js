@@ -127,7 +127,6 @@ const Products = () => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-
       });
     } else {
       ref.current?.reset()

@@ -69,10 +69,14 @@ const Page = () => {
     setchange([...change, e.target.name])
   };
 
+  const imageChange = (e) =>{
+    setchange([...change, e.target.name])
+  }
 
   const handleSubmit = async (e) => {
     setloading(true)
     const arr = Array.from([...new Set(change)])
+    console.log(arr)
     const res = await updateUser(e, { "changes": arr });
     if (res.success) {
       toast.success('Profile updated', {
@@ -108,7 +112,7 @@ const Page = () => {
       <div className='container w-[100vw] m-auto h-[85svh] flex justify-center items-center'>
         {session1 && <div className="profile relative">
           <div className="image w-24 h-24 rounded-full overflow-hidden container mx-auto">
-            <Image className='w-full h-full object-cover  ' src={profile || session?.data?.user?.image || "/images/user.png"} height={1000} width={1000} priority alt='user image' />
+            <Image  className='w-full h-full object-cover  ' src={profile || session?.data?.user?.image || "/images/user.png"} height={1000} width={1000} priority alt='user image' />
 
           </div>
           <form className='w-[70vw] sm:w-[40vw] lg:w-[20vw]' ref={ref} action={(e) => { handleSubmit(e) }}>
@@ -119,7 +123,7 @@ const Page = () => {
             {editClicked && <div className="imgages my-3">
 
               <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="file_input">Change Profile</label>
-              <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" name='profileImg' id="file_input" type="file" accept="image/*" />
+              <input onChange={(e)=>imageChange(e)} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" name='profileImg' id="file_input" type="file" accept="image/*" />
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-800" id="file_input_help">SVG, PNG, JPG or GIF (Max file size - 5mb)</p>
             </div>}
             <input type="hidden" name="oldEmail" value={session?.data?.user?.email || ""} />

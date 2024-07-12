@@ -15,20 +15,24 @@ export const updateUser = async (e, c) => {
     const email = e.get("email")
     const oldEmail = e.get("oldEmail")
     const profile = e.get("profileImg")
-    // console.log(profile)
     let profileImg
     if (profile.size >= 5 * 1024 * 1024) {
         return { error: "The file should be less than 5 mb" }
     }
-    if (profile) {
-        // console.log("hello")
+    
+    let error = false
+    let errorMessage = "";
+    if(c.changes.includes("profileImg")){
+        c.changes = c.changes.filter((ele)=>{
+            return ele !== "profileImg"
+        })
         connectDB()
         try {
             const user = await User.findOne({ oldEmail })
             const urlParts = user.profileImg.split('/');
             const fileName = urlParts.pop();
             const [publicId] = fileName.split('.');
-            const result = await cloudinary.uploader.destroy(publicId);
+            const result = await cloudinary.uploader.destroy(publicId)
         } catch (error) {
             console.error("Error deleting image:", error);
         }
@@ -50,19 +54,21 @@ export const updateUser = async (e, c) => {
         }
 
     }
-    let error = false
-    let errorMessage = "";
     const userPromises = c.changes.map(async (change) => {
         const filter = {
             [change]: e.get(change)
         }
+        // const query = filter.filter((ele)=>{
+        //     return ele !== "profileImg"
+        // })
+        console.log(filter)
         const abc = await User.findOne(filter);
         if (abc) {
             error = true
             errorMessage = `This ${change} is alredy in use`
             return { error: `This ${change} is alredy in use` }
         } else {
-            console.log(filter)
+      
             const update = await User.updateOne({ oldEmail }, filter)
             return update;
         }
@@ -90,7 +96,7 @@ export const addProduct = async (e) => {
     const quantity = e.get("quantity")
     const img = e.getAll("images")
     const oldEmail = e.get('oldEmail')
-    // console.log(oldEmail,"sdfsdf")
+
     const user = await User.findOne({ oldEmail })
     const isAdmin = user?.isAdmin
     if (!isAdmin) {
