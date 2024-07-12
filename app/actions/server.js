@@ -62,6 +62,7 @@ export const updateUser = async (e, c) => {
             errorMessage = `This ${change} is alredy in use`
             return { error: `This ${change} is alredy in use` }
         } else {
+            console.log(filter)
             const update = await User.updateOne({ oldEmail }, filter)
             return update;
         }
