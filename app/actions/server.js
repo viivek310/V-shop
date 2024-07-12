@@ -58,9 +58,6 @@ export const updateUser = async (e, c) => {
         const filter = {
             [change]: e.get(change)
         }
-        // const query = filter.filter((ele)=>{
-        //     return ele !== "profileImg"
-        // })
         const abc = await User.findOne(filter);
         if (abc) {
             error = true
@@ -69,6 +66,7 @@ export const updateUser = async (e, c) => {
         } else {
       
             const update = await User.updateOne({ oldEmail }, filter)
+            console.log(update)
             return update;
         }
     });
