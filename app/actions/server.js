@@ -61,7 +61,6 @@ export const updateUser = async (e, c) => {
         // const query = filter.filter((ele)=>{
         //     return ele !== "profileImg"
         // })
-        console.log(filter)
         const abc = await User.findOne(filter);
         if (abc) {
             error = true
