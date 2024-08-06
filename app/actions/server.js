@@ -66,7 +66,6 @@ export const updateUser = async (e, c) => {
         } else {
       
             const update = await User.updateOne({ oldEmail }, filter)
-            console.log(update)
             return update;
         }
     });
@@ -124,7 +123,7 @@ export const addProduct = async (e) => {
             const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, {
                 method: "POST",
                 body: formData
-            });
+            }); 
             const data = await response?.json();
             images?.push(data.secure_url)
         } catch (error) {

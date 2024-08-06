@@ -30,6 +30,7 @@ const Page = () => {
   const [session1, setsession1] = useState()
   
   const oldEmail = { oldEmail: session1?.user?.email }
+  console.log(oldEmail)
   useEffect(() => {
     const fetchuser = async () => {
       const user = await fetch("/api/user/", {
@@ -128,12 +129,12 @@ const Page = () => {
             </div>}
             <input type="hidden" name="oldEmail" value={session?.data?.user?.email || ""} />
             <div className="relative z-0 mt-10">
-              <input disabled={true} type="email" id="email" name="email" value={user.email || ""} onChange={(e) => handleChange(e)} className={`
+              <input disabled={true} type="email" id="email" name="email" value={user?.email || ""} onChange={(e) => handleChange(e)} className={`
                 ${editClicked&&"text-gray-600"} block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer`} placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email</label>
             </div>
             <div className="relative z-0 mt-10">
-              <input disabled={!editClicked} type="text" id="username" name="username" value={user.username || ""} onChange={(e) => handleChange(e)} className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
+              <input disabled={!editClicked} type="text" id="username" name="username" value={user?.username || ""} onChange={(e) => handleChange(e)} className="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-gray-900 focus:outline-none focus:ring-0 focus:border-gray-900 peer" placeholder=" " />
               <label htmlFor="small_standard" className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-gray-900 peer-focus:dark:text-gray-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">username</label>
             </div>
 

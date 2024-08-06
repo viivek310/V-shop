@@ -6,7 +6,11 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     connectDB()
     let req = await request.json();
-    if (Object.keys(req).length>=0) {
+    // let req = {
+    //     oldEmail: "rajan@gmail.com"
+    // }
+    if (Object.keys(req).length>=0&&req.oldEmail!==" "&&req.oldEmail!==null&&req.oldEmail!==undefined) {
+        console.log(req)
         const user = await User.findOne(req).select({_id:0,password:0})
         if(user){
             return NextResponse.json(user)
@@ -18,4 +22,5 @@ export async function POST(request) {
     }else{
         return NextResponse.json({"error": "user not found"})
     }
+
 }
