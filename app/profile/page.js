@@ -30,7 +30,7 @@ const Page = () => {
   const [session1, setsession1] = useState()
   
   const oldEmail = { oldEmail: session1?.user?.email }
-  console.log(oldEmail)
+ 
   useEffect(() => {
     const fetchuser = async () => {
       const user = await fetch("/api/user/", {
@@ -77,7 +77,6 @@ const Page = () => {
   const handleSubmit = async (e) => {
     setloading(true)
     const arr = Array.from([...new Set(change)])
-    console.log(arr)
     const res = await updateUser(e, { "changes": arr });
     if (res.success) {
       toast.success('Profile updated', {

@@ -16,7 +16,6 @@ export async function POST(request) {
       { oldEmail: data.oldEmail },
       { $push: { cart: data.productID } }
     );
-    console.log(result)
   }
 
 

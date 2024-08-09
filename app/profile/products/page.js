@@ -46,7 +46,6 @@ const Products = () => {
     const fetchsession = async()=>{
       // const sessiondata = await getSession()
       // setsession1(sessiondata)
-      console.log(isAdmin)
       if(!isAdmin){
         router.back();
       }
