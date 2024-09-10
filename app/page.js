@@ -39,7 +39,7 @@ export default function Home() {
     }
     getData()
   }, [showCategory])
-  
+    console.log(process.env.NEXTAUTH_SECRET)
 
   return (
     <>
