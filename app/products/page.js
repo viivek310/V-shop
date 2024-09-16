@@ -134,7 +134,7 @@ const Page = () => {
   }, [params])
 
   // const handleTouchStart = (e) => {
-  //   console.log("hello")
+  //    ("hello")
   //   setTouchStartX(e.targetTouches[0].clientX);
   // };
 
